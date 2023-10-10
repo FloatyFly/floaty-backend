@@ -3,10 +3,14 @@ package ch.floaty.controller;
 import ch.floaty.domain.*;
 import ch.floaty.generated.FlightDto;
 import org.modelmapper.ModelMapper;
+import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import java.net.URI;
 import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
@@ -26,7 +30,6 @@ public class FlightController {
 
     @GetMapping("/flights")
     public List<FlightDto> findAllFlight() {
-        System.out.println("Find all flight.");
         Iterable<Flight> flights = flightRepository.findAll();
         return StreamSupport.stream(flights.spliterator(), false)
                 .map(flight -> modelMapper.map(flight, FlightDto.class))
@@ -46,14 +49,28 @@ public class FlightController {
     }
 
     @PostMapping("/flights")
-    public FlightDto saveFlight(@Validated @RequestBody FlightDto flightDto) {
-        System.out.println("Save flight.");
-        User user = new User();
-        user.setId(flightDto.getUserId());
-        Flight flight = new Flight(user, flightDto.getTakeoff(), flightDto.getDuration(), flightDto.getDate());
-        Long flightId = ((List<Flight>) flightRepository.findAll()).stream().map(Flight::getId).max(Long::compareTo).orElse(0L) + 1;
+    public ResponseEntity<FlightDto> saveFlight(@Validated @RequestBody FlightDto flightDto) {
+        Optional<User> user = userRepository.findById(flightDto.getUserId());
+        if (user.isEmpty()) {
+            return ResponseEntity.notFound().build();
+        }
+        Flight flight = new Flight(user.get(), flightDto.getTakeoff(), flightDto.getDuration(), flightDto.getDate());
+        String flightId = UUID.randomUUID().toString();
         flight.setId(flightId);
-        return modelMapper.map(flightRepository.save(flight), FlightDto.class);
+        Flight responseFlight = flightRepository.save(flight);
+        FlightDto responseFlightDto = modelMapper.map(responseFlight, FlightDto.class);
+        URI location = URI.create("/flights/" + responseFlightDto.getFlightId());
+        return ResponseEntity.created(location).body(responseFlightDto);
+    }
+
+    @DeleteMapping("/flights/{flightId}")
+    public ResponseEntity<Void> deleteFlightById(@PathVariable String flightId) {
+        if (flightRepository.existsById(flightId)) {
+            flightRepository.deleteById(flightId);
+            return ResponseEntity.ok().build();  // Return 200 OK
+        } else {
+            return ResponseEntity.notFound().build();  // Return 404 Not Found if the flight doesn't exist
+        }
     }
 
 }

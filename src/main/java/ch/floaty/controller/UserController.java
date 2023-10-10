@@ -1,9 +1,7 @@
 package ch.floaty.controller;
 
-import ch.floaty.domain.Flight;
 import ch.floaty.domain.User;
 import ch.floaty.domain.IUserRepository;
-import ch.floaty.generated.FlightDto;
 import ch.floaty.generated.UserDto;
 import org.modelmapper.ModelMapper;
 import org.springframework.http.MediaType;
