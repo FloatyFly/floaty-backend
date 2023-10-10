@@ -32,7 +32,7 @@ jobs:
         with:
           azure-subscription: ${{ env.AZURE_SUBSCRIPTION }}
           action: Deploy
-          service-name: floaty-web-app-instance
+          service-name: floaty-web-app-instance-default-23-78785c8f9c-4zqdr
           app-name: floaty-spring-app
           use-staging-deployment: false
           package: ${{ env.ASC_PACKAGE_PATH }}/**/floaty-*.jar
