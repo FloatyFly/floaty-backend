@@ -24,6 +24,28 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/User'
+    post:
+      tags:
+        - users
+      summary: Persist a new user.
+      description: Add a new user to the backend persistence.
+      operationId: createUser
+      requestBody:
+        description: Optional description in *Markdown*
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/User'
+      responses:
+        '201':
+          description: Created new user
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+        '409':
+          description: User already exists
   /users/{userId}:
     get:
       tags:
@@ -46,29 +68,28 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/User'
-
-  /flights/{userId}:
-    get:
+        '401':
+          description: Unauthorized to view user details
+        '404':
+          description: User not found
+    delete:
       tags:
-        - flights
-      summary: Find all flights for a given User.
-      description: Returns a list of Flights for a User.
-      operationId: getFlights
+        - users
+      summary: Delete a user by ID.
+      description: Delete a specific user.
       parameters:
         - name: userId
           in: path
-          description: ID of user
+          description: ID of user to delete
           required: true
           schema:
             type: integer
             format: int64
       responses:
         '200':
-          description: Successful operation
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Flight'
+          description: Successfully deleted user.
+
+
   /flights/{flightId}:
     delete:
       tags:
