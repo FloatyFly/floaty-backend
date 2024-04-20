@@ -1,0 +1,4 @@
+apiVersion: v2
+name: floaty-backend
+description: A Helm chart for deploying the backend of the FloatyFly application.
+version: 0.0.1
