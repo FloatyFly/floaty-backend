@@ -54,7 +54,8 @@ public class FlightController {
         if (user.isEmpty()) {
             return ResponseEntity.notFound().build();
         }
-        Flight flight = new Flight(user.get(), flightDto.getTakeoff(), flightDto.getDuration(), flightDto.getDate());
+        Flight flight = new Flight(user.get(), flightDto.getTakeoff(), flightDto.getDuration(), flightDto.getDate(),
+                flightDto.getDescription() != null ? flightDto.getDescription() : "");
         String flightId = UUID.randomUUID().toString();
         flight.setId(flightId);
         Flight responseFlight = flightRepository.save(flight);

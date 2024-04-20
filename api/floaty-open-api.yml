@@ -173,3 +173,7 @@ components:
           format: int64
           example: 60
           description: 'Duration in minutes'
+        description:
+          type: string
+          example: "This flight was epic."
+          description: "Some textual description of the flight experience."

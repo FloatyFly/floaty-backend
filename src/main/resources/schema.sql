@@ -6,6 +6,7 @@ CREATE TABLE t_flight
     takeoff     VARCHAR(128)    NOT NULL,
     duration    INTEGER         NOT NULL,
     date        VARCHAR(64)     NOT NULL,
+    description VARCHAR(512)    NOT NULL,
     PRIMARY KEY (id)
 );
 
