@@ -6,6 +6,7 @@ WORKDIR /app
 COPY pom.xml .
 RUN mvn verify --fail-never
 COPY src src
+COPY api api
 RUN mvn clean package
 
 # ----- Package stage
