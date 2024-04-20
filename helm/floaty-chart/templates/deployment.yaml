@@ -14,7 +14,7 @@ spec:
         app: floaty-backend
     spec:
       containers:
-        - image: gcr.io/heptio-images/ks-guestbook-demo:0.2
-          name: guestbook-ui
+        - image: matthaeusheer/floaty-backend:latest
+          name: floaty-backend
           ports:
             - containerPort: 8080
