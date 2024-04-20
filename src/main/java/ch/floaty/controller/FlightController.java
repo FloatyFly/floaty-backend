@@ -60,6 +60,7 @@ public class FlightController {
         Flight responseFlight = flightRepository.save(flight);
         FlightDto responseFlightDto = modelMapper.map(responseFlight, FlightDto.class);
         URI location = URI.create("/flights/" + responseFlightDto.getFlightId());
+        System.out.println("Added flight: ID=" + responseFlightDto.getFlightId() + ", Takeoff=" + responseFlightDto.getTakeoff() + ", Duration=" + responseFlightDto.getDuration() + ", Date=" + responseFlightDto.getDate());
         return ResponseEntity.created(location).body(responseFlightDto);
     }
 
@@ -67,6 +68,7 @@ public class FlightController {
     public ResponseEntity<Void> deleteFlightById(@PathVariable String flightId) {
         if (flightRepository.existsById(flightId)) {
             flightRepository.deleteById(flightId);
+            System.out.println("Deleted flight.");
             return ResponseEntity.ok().build();  // Return 200 OK
         } else {
             return ResponseEntity.notFound().build();  // Return 404 Not Found if the flight doesn't exist
