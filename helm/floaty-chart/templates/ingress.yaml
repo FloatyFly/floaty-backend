@@ -8,7 +8,6 @@ spec:
     - tls:
         - hosts:
             - floaty.kos.cheap
-          secretName: mgmt-argocd/ingress-cert
     - host: floaty.kos.cheap
       http:
         paths:
