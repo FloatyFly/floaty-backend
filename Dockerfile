@@ -4,9 +4,9 @@ FROM maven:3.9.4-eclipse-temurin-17 AS build
 WORKDIR /app
 
 COPY pom.xml .
+COPY api api
 RUN mvn verify --fail-never
 COPY src src
-COPY api api
 RUN mvn clean package
 
 # ----- Package stage
