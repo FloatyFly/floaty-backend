@@ -1,0 +1,15 @@
+meta {
+  name: Get flights for user
+  type: http
+  seq: 3
+}
+
+get {
+  url: {{protocol}}{{host-url}}/flights/:userId
+  body: none
+  auth: none
+}
+
+params:path {
+  userId: 2
+}
