@@ -20,10 +20,8 @@ import static java.util.stream.Collectors.toList;
 
 @RestController
 public class UserController {
-
     private final IUserRepository IUserRepository;
     private static final ModelMapper modelMapper = new ModelMapper();
-
     public UserController(IUserRepository IUserRepository) {
         this.IUserRepository = IUserRepository;
     }
@@ -50,7 +48,7 @@ public class UserController {
                 stream().
                 map(User::getId).
                 max(Long::compareTo).orElse(0L) + 1;
-        User newUser = new User();
+        User newUser = new User(nextUserId, userDto.getName());
         newUser.setName(userDto.getName());
         newUser.setId(nextUserId);
         return toUserDto(IUserRepository.save(newUser));
