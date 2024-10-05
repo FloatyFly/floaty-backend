@@ -46,6 +46,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/User'
+
   /flights/{userId}:
     get:
       tags:
@@ -125,7 +126,65 @@ paths:
                 items:
                   $ref: '#/components/schemas/Flight'
 
+  /auth/register:
+    post:
+      tags:
+        - auth
+      summary: Register a new user.
+      description: Creates a new user with a username and password.
+      operationId: registerUser
+      requestBody:
+        description: User registration details.
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RegisterRequest'
+      responses:
+        '201':
+          description: User created successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
 
+  /auth/login:
+    post:
+      tags:
+        - auth
+      summary: Login a user.
+      description: Authenticates a user and returns a session cookie or token.
+      operationId: loginUser
+      requestBody:
+        description: User login credentials.
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LoginRequest'
+      responses:
+        '200':
+          description: Successful login.
+          headers:
+            Set-Cookie:
+              description: Session cookie for authenticated user.
+              schema:
+                type: string
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+
+  /auth/logout:
+    post:
+      tags:
+        - auth
+      summary: Logout the user.
+      description: Logs out the authenticated user and invalidates the session.
+      operationId: logoutUser
+      responses:
+        '200':
+          description: Successful logout.
 components:
   schemas:
     User:
@@ -147,8 +206,8 @@ components:
       type: object
       required:
         - userId
-        - date
-        - takeoff
+        - dateTime
+        - takeOff
       properties:
         flightId:
           type: string
@@ -161,7 +220,7 @@ components:
         dateTime:
           type: string
           example: '22.03.23'
-          description: 'Date of the flight'
+          description: 'Datetime of the flight. Format: 2024-05-12T08:59:10. Local date time.'
         takeOff:
           type: string
           example: 'Titlis'
@@ -175,3 +234,32 @@ components:
           type: string
           example: "This flight was epic."
           description: "Some textual description of the flight experience."
+    RegisterRequest:
+      type: object
+      required:
+        - username
+        - password
+        - email
+      properties:
+        username:
+          type: string
+          description: 'The username of the user.'
+        password:
+          type: string
+          description: 'The password for the account.'
+        email:
+          type: string
+          format: email
+          description: 'The email address of the user.'
+    LoginRequest:
+      type: object
+      required:
+        - username
+        - password
+      properties:
+        name:
+          type: string
+          description: 'The username of the user.'
+        password:
+          type: string
+          description: 'The password for the account.'
