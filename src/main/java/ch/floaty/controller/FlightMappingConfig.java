@@ -20,7 +20,6 @@ public class FlightMappingConfig {
             @Override
             protected void configure() {
                 map().setFlightId(source.getId());
-                map().setUserId(source.getUser().getId());
                 using(ctx -> ((Flight) ctx.getSource()).getFlightParameters().getDateTime().toString()).map(source, destination.getDateTime());
                 map().setTakeOff(source.getFlightParameters().getTakeOff());
                 map().setDuration(source.getFlightParameters().getDuration());
