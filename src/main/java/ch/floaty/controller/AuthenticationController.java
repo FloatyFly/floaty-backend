@@ -1,6 +1,5 @@
 package ch.floaty.controller;
 
-import ch.floaty.domain.AuthenticationExceptions;
 import ch.floaty.domain.AuthenticationExceptions.UserNotFoundException;
 import ch.floaty.domain.AuthenticationExceptions.WrongPasswordException;
 import ch.floaty.domain.AuthenticationService;
