@@ -36,7 +36,6 @@ public class FlightController {
 
     @PostMapping("/flights")
     public ResponseEntity<FlightDto> createFlight(@Validated @RequestBody FlightDto flightDto) {
-
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         User user = (User) authentication.getPrincipal();
 

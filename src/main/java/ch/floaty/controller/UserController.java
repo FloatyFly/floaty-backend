@@ -6,7 +6,7 @@ import ch.floaty.generated.UserDto;
 import org.modelmapper.ModelMapper;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.validation.annotation.Validated;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
@@ -27,34 +27,22 @@ public class UserController {
     }
 
     @GetMapping("/users")
+    @PreAuthorize("hasAuthority('ADMIN')")
     public List<UserDto> findAllUsers() {
         List<User> users = (List<User>) IUserRepository.findAll();
         return users.stream().map(UserController::toUserDto).collect(toList());
     }
 
-    @GetMapping("/users/{id}")
-    public ResponseEntity<UserDto> findUserById(@PathVariable(value = "id") long id) {
-        Optional<User> user = IUserRepository.findById(id);
+    @GetMapping("/users/{userId}")
+    @PreAuthorize("@userSecurity.hasUserIdOrAdmin(#userId)")
+    public ResponseEntity<UserDto> findUserById(@PathVariable Long userId) {
+        Optional<User> user = IUserRepository.findById(userId);
         return user.map(value -> ResponseEntity.ok().body(toUserDto(value)))
                 .orElseGet(() -> ResponseEntity.notFound().build());
     }
 
-//    @PostMapping("/users")
-//    public UserDto saveUser(@Validated @RequestBody UserDto userDto) {
-//        // TODO (Matthäus): This is quite some logic and should go into an application or even domain service.
-//        // TODO (Matthäus): The userId should be given by the backend and not by the frontend.
-//        // TODO (Matthäus): This whole thing will probably go away once we have proper user management.
-//        Long nextUserId = ((List<User>) IUserRepository.findAll()).
-//                stream().
-//                map(User::getId).
-//                max(Long::compareTo).orElse(0L) + 1;
-//        User newUser = new User(nextUserId, userDto.getName());
-//        newUser.setName(userDto.getName());
-//        newUser.setId(nextUserId);
-//        return toUserDto(IUserRepository.save(newUser));
-//    }
-
     @DeleteMapping("/users/{id}")
+    @PreAuthorize("hasAuthority('ADMIN')")
     public Map<String, Boolean> deleteUserById(@PathVariable long id) {
         Optional<User> user = IUserRepository.findById(id);
 
