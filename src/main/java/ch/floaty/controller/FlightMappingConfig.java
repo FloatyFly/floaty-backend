@@ -7,7 +7,6 @@ import org.modelmapper.ModelMapper;
 import org.modelmapper.PropertyMap;
 
 import java.time.LocalDateTime;
-import java.util.UUID;
 
 public class FlightMappingConfig {
 

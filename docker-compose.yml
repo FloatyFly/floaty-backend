@@ -21,10 +21,6 @@ services:
       - MYSQL_DATABASE=floaty-db
       - MYSQL_USER=db-user
       - MYSQL_PASSWORD=db-user-pw
-  frontend:
-    image: matthaeusheer/floaty-frontend:latest
-    ports:
-      - "81:80"
 networks:
   backend-network:
     driver: bridge

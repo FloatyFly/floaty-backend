@@ -39,20 +39,20 @@ public class UserController {
                 .orElseGet(() -> ResponseEntity.notFound().build());
     }
 
-    @PostMapping("/users")
-    public UserDto saveUser(@Validated @RequestBody UserDto userDto) {
-        // TODO (Matthäus): This is quite some logic and should go into an application or even domain service.
-        // TODO (Matthäus): The userId should be given by the backend and not by the frontend.
-        // TODO (Matthäus): This whole thing will probably go away once we have proper user management.
-        Long nextUserId = ((List<User>) IUserRepository.findAll()).
-                stream().
-                map(User::getId).
-                max(Long::compareTo).orElse(0L) + 1;
-        User newUser = new User(nextUserId, userDto.getName());
-        newUser.setName(userDto.getName());
-        newUser.setId(nextUserId);
-        return toUserDto(IUserRepository.save(newUser));
-    }
+//    @PostMapping("/users")
+//    public UserDto saveUser(@Validated @RequestBody UserDto userDto) {
+//        // TODO (Matthäus): This is quite some logic and should go into an application or even domain service.
+//        // TODO (Matthäus): The userId should be given by the backend and not by the frontend.
+//        // TODO (Matthäus): This whole thing will probably go away once we have proper user management.
+//        Long nextUserId = ((List<User>) IUserRepository.findAll()).
+//                stream().
+//                map(User::getId).
+//                max(Long::compareTo).orElse(0L) + 1;
+//        User newUser = new User(nextUserId, userDto.getName());
+//        newUser.setName(userDto.getName());
+//        newUser.setId(nextUserId);
+//        return toUserDto(IUserRepository.save(newUser));
+//    }
 
     @DeleteMapping("/users/{id}")
     public Map<String, Boolean> deleteUserById(@PathVariable long id) {
