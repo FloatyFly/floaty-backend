@@ -1,4 +1,8 @@
-package ch.floaty.domain;
+package ch.floaty.domain.service;
+
+import ch.floaty.domain.model.Flight;
+import ch.floaty.domain.model.FlightParameters;
+import ch.floaty.domain.model.User;
 
 import java.time.format.DateTimeParseException;
 import java.util.List;

@@ -1,17 +1,24 @@
-package ch.floaty.controller;
+package ch.floaty.infrastructure;
 
-import ch.floaty.domain.*;
+import ch.floaty.domain.model.Flight;
+import ch.floaty.domain.model.FlightParameters;
+import ch.floaty.domain.model.User;
+import ch.floaty.domain.service.IFlightApplicationService;
+import ch.floaty.domain.repository.IFlightRepository;
+import ch.floaty.domain.repository.IUserRepository;
 import ch.floaty.generated.FlightDto;
 import org.modelmapper.ModelMapper;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeParseException;
-import java.util.EmptyStackException;
 import java.util.List;
 import java.util.UUID;
 
@@ -34,10 +41,10 @@ public class FlightController {
 
     @PostMapping("/flights")
     public ResponseEntity<FlightDto> createFlight(@Validated @RequestBody FlightDto flightDto) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        User user = (User) authentication.getPrincipal();
+
         LocalDateTime localDateTime;
-        if (flightDto.getDateTime() == null) {
-            return ResponseEntity.badRequest().build();
-        }
         try {
             localDateTime = LocalDateTime.parse(flightDto.getDateTime());
         } catch (DateTimeParseException exception) {
@@ -45,25 +52,23 @@ public class FlightController {
         }
         FlightParameters flightParameters = new FlightParameters(localDateTime, flightDto.getTakeOff(),
                 flightDto.getDuration(), flightDto.getDescription());
-        User user = userRepository.findById(flightDto.getUserId()).orElse(null);
-        if (user == null) {
-            return ResponseEntity.notFound().build();
-        }
         Flight flight = this.flightApplicationService.createFlight(user, flightParameters);
-        FlightDto responseFlightDto = modelMapper.map(flight, FlightDto.class);
 
+        FlightDto responseFlightDto = modelMapper.map(flight, FlightDto.class);
         URI location = URI.create("/flights/" + responseFlightDto.getFlightId());
         System.out.println("Added flight: ID=" + responseFlightDto.getFlightId() + ", Takeoff=" + responseFlightDto.getTakeOff() + ", Duration=" + responseFlightDto.getDuration() + ", Date=" + responseFlightDto.getDateTime());
         return ResponseEntity.created(location).body(responseFlightDto);
     }
 
     @GetMapping("/flights")
+    @PreAuthorize("hasAuthority('ADMIN')")
     public List<FlightDto> findAllFlight() {
         return this.flightApplicationService.findAllFlights()
                 .stream().map(flight -> modelMapper.map(flight, FlightDto.class)).collect(toList());
     }
 
     @GetMapping("/flights/{userId}")
+    @PreAuthorize("@userSecurity.hasUserIdOrAdmin(#userId)")
     public List<FlightDto> findFlightsForUserId(@PathVariable Long userId) {
         User user = userRepository.findById(userId).orElse(null);
         if (user == null) {

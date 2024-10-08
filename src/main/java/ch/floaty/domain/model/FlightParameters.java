@@ -1,4 +1,4 @@
-package ch.floaty.domain;
+package ch.floaty.domain.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
