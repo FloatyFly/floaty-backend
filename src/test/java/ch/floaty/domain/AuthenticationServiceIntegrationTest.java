@@ -1,5 +1,11 @@
 package ch.floaty.domain;
 
+import ch.floaty.domain.model.SessionToken;
+import ch.floaty.domain.model.User;
+import ch.floaty.domain.service.AuthenticationExceptions;
+import ch.floaty.domain.service.IAuthenticationService;
+import ch.floaty.domain.repository.ISessionTokenRepository;
+import ch.floaty.domain.repository.IUserRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -43,6 +49,8 @@ public class AuthenticationServiceIntegrationTest {
         assertTrue(bCryptPasswordEncoder.matches(testRawPassword, registeredUser.getHashedPassword()));
     }
 
+
+
     @Test
     public void testLoginHappyPath() throws AuthenticationExceptions.WrongPasswordException {
         // Arrange
@@ -60,7 +68,26 @@ public class AuthenticationServiceIntegrationTest {
         assertEquals(sessionToken, sessionTokenFromDb);
         assertEquals(registeredUser, sessionToken.getUser());
         assertTrue(sessionToken.isValid());
-        assertTrue(sessionToken.expirationTime.isAfter(LocalDateTime.now()));
+        assertTrue(sessionToken.getExpirationTime().isAfter(LocalDateTime.now()));
+    }
+
+    @Test
+    public void testLoginWithWrongPassword() throws AuthenticationExceptions.WrongPasswordException {
+        // Arrange
+        HashMap<String, String> randomUserParameters = createRandomUserParameters();
+        String username = randomUserParameters.get("username");
+        String email = randomUserParameters.get("email");
+        String password = randomUserParameters.get("password");
+        authenticationService.register(username, email, password);
+
+        // Act + Assert
+        assertThrows(AuthenticationExceptions.WrongPasswordException.class, () -> authenticationService.login(username, "WONG_PASSWORD"));
+    }
+
+    @Test
+    public void testLoginWithNonExistingUser() throws AuthenticationExceptions.WrongPasswordException {
+        // Act + Assert
+        assertThrows(AuthenticationExceptions.UserNotFoundException.class, () -> authenticationService.login("WRONG_USERNAME", "ANY_PASSWORD"));
     }
 
     private HashMap<String, String> createRandomUserParameters() {

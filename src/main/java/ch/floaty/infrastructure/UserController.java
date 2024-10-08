@@ -1,7 +1,7 @@
-package ch.floaty.controller;
+package ch.floaty.infrastructure;
 
-import ch.floaty.domain.User;
-import ch.floaty.domain.IUserRepository;
+import ch.floaty.domain.model.User;
+import ch.floaty.domain.repository.IUserRepository;
 import ch.floaty.generated.UserDto;
 import org.modelmapper.ModelMapper;
 import org.springframework.http.MediaType;

@@ -1,7 +1,11 @@
-package ch.floaty.domain;
+package ch.floaty.domain.service;
 
-import ch.floaty.domain.AuthenticationExceptions.UserNotFoundException;
-import ch.floaty.domain.AuthenticationExceptions.WrongPasswordException;
+import ch.floaty.domain.service.AuthenticationExceptions.UserNotFoundException;
+import ch.floaty.domain.service.AuthenticationExceptions.WrongPasswordException;
+import ch.floaty.domain.repository.ISessionTokenRepository;
+import ch.floaty.domain.repository.IUserRepository;
+import ch.floaty.domain.model.SessionToken;
+import ch.floaty.domain.model.User;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
 

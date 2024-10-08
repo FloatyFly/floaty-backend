@@ -1,10 +1,10 @@
-package ch.floaty.controller;
+package ch.floaty.infrastructure;
 
-import ch.floaty.domain.AuthenticationExceptions.UserNotFoundException;
-import ch.floaty.domain.AuthenticationExceptions.WrongPasswordException;
-import ch.floaty.domain.AuthenticationService;
-import ch.floaty.domain.SessionToken;
-import ch.floaty.domain.User;
+import ch.floaty.domain.service.AuthenticationExceptions.UserNotFoundException;
+import ch.floaty.domain.service.AuthenticationExceptions.WrongPasswordException;
+import ch.floaty.domain.service.AuthenticationService;
+import ch.floaty.domain.model.SessionToken;
+import ch.floaty.domain.model.User;
 import ch.floaty.generated.LoginRequestDto;
 import ch.floaty.generated.RegisterRequestDto;
 import ch.floaty.generated.UserDto;

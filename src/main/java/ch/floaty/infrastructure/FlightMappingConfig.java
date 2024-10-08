@@ -1,6 +1,6 @@
-package ch.floaty.controller;
+package ch.floaty.infrastructure;
 
-import ch.floaty.domain.Flight;
+import ch.floaty.domain.model.Flight;
 import ch.floaty.generated.FlightDto;
 import org.modelmapper.AbstractConverter;
 import org.modelmapper.ModelMapper;
