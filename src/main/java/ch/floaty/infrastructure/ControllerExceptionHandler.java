@@ -1,4 +1,4 @@
-package ch.floaty.controller;
+package ch.floaty.infrastructure;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;

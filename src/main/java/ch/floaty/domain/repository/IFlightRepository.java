@@ -1,5 +1,7 @@
-package ch.floaty.domain;
+package ch.floaty.domain.repository;
 
+import ch.floaty.domain.model.Flight;
+import ch.floaty.domain.model.User;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 

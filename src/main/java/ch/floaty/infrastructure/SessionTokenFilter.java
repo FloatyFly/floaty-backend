@@ -1,5 +1,8 @@
-package ch.floaty.domain;
+package ch.floaty.infrastructure;
 
+import ch.floaty.domain.model.SessionToken;
+import ch.floaty.domain.model.User;
+import ch.floaty.domain.service.SessionTokenService;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;

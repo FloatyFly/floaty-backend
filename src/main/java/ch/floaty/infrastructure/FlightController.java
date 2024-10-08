@@ -1,6 +1,11 @@
-package ch.floaty.controller;
+package ch.floaty.infrastructure;
 
-import ch.floaty.domain.*;
+import ch.floaty.domain.model.Flight;
+import ch.floaty.domain.model.FlightParameters;
+import ch.floaty.domain.model.User;
+import ch.floaty.domain.service.IFlightApplicationService;
+import ch.floaty.domain.repository.IFlightRepository;
+import ch.floaty.domain.repository.IUserRepository;
 import ch.floaty.generated.FlightDto;
 import org.modelmapper.ModelMapper;
 import org.springframework.dao.EmptyResultDataAccessException;

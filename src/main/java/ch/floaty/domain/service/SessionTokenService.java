@@ -1,5 +1,7 @@
-package ch.floaty.domain;
+package ch.floaty.domain.service;
 
+import ch.floaty.domain.repository.ISessionTokenRepository;
+import ch.floaty.domain.model.SessionToken;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;

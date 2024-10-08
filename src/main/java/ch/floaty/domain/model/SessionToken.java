@@ -1,4 +1,4 @@
-package ch.floaty.domain;
+package ch.floaty.domain.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -32,7 +32,7 @@ public class SessionToken {
     @Column(name = "expiration_time")
     LocalDateTime expirationTime;
 
-    boolean isValid() {
+    public boolean isValid() {
         return expirationTime.isAfter(LocalDateTime.now());
     }
 }
