@@ -16,7 +16,6 @@ import org.modelmapper.ModelMapper;
 import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
@@ -87,7 +86,7 @@ public class AuthenticationControllerTest {
         LoginRequestDto loginRequestDto = new LoginRequestDto();
         loginRequestDto.setName("testuser");
         loginRequestDto.setPassword("password");
-        SessionToken sessionToken = new SessionToken();
+        SessionToken sessionToken = new SessionToken(null);
         sessionToken.setToken("token123");
         when(authenticationService.login(loginRequestDto.getName(), loginRequestDto.getPassword()))
                 .thenReturn(sessionToken);

@@ -1,8 +1,8 @@
 
 -- original password myPassword123
-INSERT INTO t_user (id, name, email, password_hash) VALUES (1, 'Matthäus', 'matt@floaty.com', '$2a$10$X.F7s5u19RTCOuVORFf8Yue2KfJZyk8RfEpKX9PU2q/fUdeuNh7tm');
-INSERT INTO t_user (id, name, email, password_hash) VALUES (2, 'Patrice', 'patrice@floaty.com', '$2a$10$VtBDoFg5XHdX4yIStcSKOuMiMNAPGfzYZhkXLjbgVvqt7jjDsgnI6');
-INSERT INTO t_user (id, name, email, password_hash) VALUES (3, 'Yanik', 'yanik@floaty.com', '$2a$10$fCVak5B3oxnheO7hDWiXKOG8lNfTRqiJCFMv/qUVfJasIEj/RUZR6');
+INSERT INTO t_user (id, name, email, email_verified, password_hash) VALUES (1, 'Matthäus', 'matt@floaty.com', 'false', '$2a$10$X.F7s5u19RTCOuVORFf8Yue2KfJZyk8RfEpKX9PU2q/fUdeuNh7tm');
+INSERT INTO t_user (id, name, email, email_verified, password_hash) VALUES (2, 'Patrice', 'patrice@floaty.com', 'false', '$2a$10$VtBDoFg5XHdX4yIStcSKOuMiMNAPGfzYZhkXLjbgVvqt7jjDsgnI6');
+INSERT INTO t_user (id, name, email, email_verified, password_hash) VALUES (3, 'Yanik', 'yanik@floaty.com', 'true', '$2a$10$fCVak5B3oxnheO7hDWiXKOG8lNfTRqiJCFMv/qUVfJasIEj/RUZR6');
 
 ALTER SEQUENCE user_seq RESTART WITH (SELECT MAX(id) + 1 FROM t_user);
 
