@@ -23,6 +23,7 @@ public class User implements UserDetails {
     private Long id;
     private String name;
     private String email;
+    private boolean emailVerified = false;
     @Column(name = "password_hash")
     private String hashedPassword;
 
@@ -66,6 +67,14 @@ public class User implements UserDetails {
     @Override
     public boolean isEnabled() {
         return true;
+    }
+
+    public void setEmailVerified(boolean emailVerified) {
+        this.emailVerified = emailVerified;
+    }
+
+    public boolean isEmailVerified() {
+        return emailVerified;
     }
 }
 

@@ -22,8 +22,8 @@ public class SecurityConfig {
         http
                 .authorizeHttpRequests(authorizeRequests ->
                         authorizeRequests
-                                .antMatchers("/auth/register", "/auth/login").permitAll()
-                                .anyRequest().authenticated() // Protect all other endpoints
+                                .antMatchers("/auth/**").permitAll()
+                                .anyRequest().authenticated()
                 )
                 .addFilterBefore(sessionTokenFilter, UsernamePasswordAuthenticationFilter.class)
                 .csrf().disable(); // TODO: Disable CSRF for now (enable for production with appropriate configurations)

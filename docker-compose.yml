@@ -20,7 +20,14 @@ services:
       - MYSQL_ROOT_PASSWORD=root
       - MYSQL_DATABASE=floaty-db
       - MYSQL_USER=db-user
-      - MYSQL_PASSWORD=db-user-pw
+      - MYSQL_PASSWORD=db-password
+    volumes:
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+  smtp-server:
+    image: rnwood/smtp4dev
+    ports:
+      - "5001:80"    # Expose the web UI on localhost:5001
+      - "2525:25"    # Expose the SMTP server on localhost:2525
 networks:
   backend-network:
     driver: bridge

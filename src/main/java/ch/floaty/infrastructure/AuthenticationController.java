@@ -7,9 +7,11 @@ import ch.floaty.domain.model.SessionToken;
 import ch.floaty.domain.model.User;
 import ch.floaty.generated.LoginRequestDto;
 import ch.floaty.generated.RegisterRequestDto;
+import ch.floaty.generated.ResetPasswordRequestDto;
 import ch.floaty.generated.UserDto;
 import org.modelmapper.ModelMapper;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -26,7 +28,7 @@ public class AuthenticationController {
     AuthenticationService authenticationService;
     ModelMapper modelMapper = new ModelMapper();
 
-    public AuthenticationController(AuthenticationService authenticationService) {
+    public AuthenticationController(AuthenticationService authenticationService, EmailService emailService) {
         this.authenticationService = authenticationService;
     }
 
@@ -51,5 +53,25 @@ public class AuthenticationController {
         cookie.setPath("/");  // all endpoints shall return new session cookie
         response.addCookie(cookie);
         return ResponseEntity.ok().build();
+    }
+
+    @PostMapping("/auth/verify-email/{token}")
+    public ResponseEntity<String> verifyEmail(@PathVariable String token) {
+        authenticationService.verifyEmail(token);
+        return ResponseEntity.ok("Email verification successful.");
+    }
+
+    @PostMapping("/auth/initiate-password-reset")
+    public ResponseEntity<String> initiatePasswordReset(@RequestBody String email) {
+        authenticationService.initiatePasswordReset(email);
+        return ResponseEntity.ok("A link to reset the password has been send to the email (if it exists).");
+    }
+
+    @PostMapping("/auth/reset-password")
+    public ResponseEntity<String> resetPassword(@RequestBody ResetPasswordRequestDto resetPasswordRequestDto) {
+        authenticationService.resetPassword(
+                resetPasswordRequestDto.getPasswordResetToken(),
+                resetPasswordRequestDto.getNewPassword());
+        return ResponseEntity.ok("Password reset successful.");
     }
 }

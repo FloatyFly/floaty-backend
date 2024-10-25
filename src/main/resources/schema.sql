@@ -1,4 +1,5 @@
--- Spring actually creates all this by itself.
+
+-- TODO: Add something like liquibase to manage database migrations. In dev environments we have auto-ddl anyway.
 
 --DROP TABLE IF EXISTS t_session;
 --DROP TABLE IF EXISTS t_flight;
