@@ -10,6 +10,7 @@ import ch.floaty.domain.repository.IUserRepository;
 import ch.floaty.domain.model.SessionToken;
 import ch.floaty.domain.model.User;
 import ch.floaty.infrastructure.EmailService;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -21,8 +22,8 @@ import java.util.regex.Pattern;
 @Transactional
 public class AuthenticationService implements IAuthenticationService{
 
-    // TODO: Move to application.properties
-    public static final String BASE_URL = "http://localhost:8080";
+    @Value("${app.base.url}")
+    public static String baseUrl;
     private static final String EMAIL_REGEX = "^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$";
     private static final Pattern EMAIL_PATTERN = Pattern.compile(EMAIL_REGEX);
 
@@ -59,9 +60,7 @@ public class AuthenticationService implements IAuthenticationService{
         User storedUser = this.userRepository.save(newUser);
         EmailVerificationToken emailVerificationToken = new EmailVerificationToken(storedUser);
         this.emailVerificationTokenRepository.save(emailVerificationToken);
-        String baseUrl = "http://localhost:8080";
-        String verificationUrl = baseUrl + "/auth/verify-email/" + emailVerificationToken.getToken();
-        String eMailText = "Click the link below to verify your email:\n" + verificationUrl + "\n";
+        String eMailText = "Your email verification code: " + emailVerificationToken.getToken();
         String eMailSubject = "Floaty Email Verification";
         emailService.sendSimpleEmail(storedUser.getEmail(), eMailSubject, eMailText);
         return storedUser;
@@ -121,8 +120,7 @@ public class AuthenticationService implements IAuthenticationService{
         if (user != null) {
             PasswordResetToken passwordResetToken = new PasswordResetToken(user);
             passwordResetTokenRepository.save(passwordResetToken);
-            String passwordResetUrl = BASE_URL + "/auth/reset-password/" + passwordResetToken.getToken();
-            String eMailText = "Click the link below to reset your password:\n" + passwordResetUrl + "\n";
+            String eMailText = "Your password reset code: " + passwordResetToken.getToken();
             String eMailSubject = "Floaty Password Reset";
             emailService.sendSimpleEmail(user.getEmail(), eMailSubject, eMailText);
             return Optional.of(passwordResetToken);

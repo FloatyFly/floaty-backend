@@ -1,19 +1,10 @@
 version: "3"
 
 services:
-  floaty-backend:
-    image: matthaeusheer/floaty-backend:latest
-    build: .
-    ports:
-      - "8080:8080"
-    networks:
-      - backend-network
-    depends_on:
-      - floaty-db-service
   floaty-db-service:
     image: mysql:8.0
     ports:
-      - "3306:3306"
+      - "3306:3306" # Expose MySQL on localhost:3306 (the classic mysql port)
     networks:
       - backend-network
     environment:
@@ -28,6 +19,15 @@ services:
     ports:
       - "5001:80"    # Expose the web UI on localhost:5001
       - "2525:25"    # Expose the SMTP server on localhost:2525
+  floaty-backend:
+    image: matthaeusheer/floaty-backend:latest
+    build: .
+    ports:
+      - "8080:8080"
+    networks:
+      - backend-network
+    depends_on:
+      - floaty-db-service
 networks:
   backend-network:
     driver: bridge
