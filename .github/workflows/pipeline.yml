@@ -1,5 +1,6 @@
 name: AzureSpringApps
-# on: push  -> DISABLED
+on:
+  workflow_dispatch:  # Only triggers manually, not on push or PR
 env:
   ASC_PACKAGE_PATH: ${{ github.workspace }}
   AZURE_SUBSCRIPTION: da12d467-03ae-4675-aa29-d3b26fdbd2cc
