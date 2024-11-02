@@ -141,6 +141,7 @@ public class AuthenticationService implements IAuthenticationService{
         validatePasswordStrength(newPassword);
         User user = passwordResetToken.getUser();
         passwordResetToken.setUsed(true);
+        sessionTokenRepository.findByUserId(user.getId()).forEach(sessionTokenRepository::delete);
         passwordResetTokenRepository.save(passwordResetToken);
         user.setHashedPassword(bCryptPasswordEncoder.encode(newPassword));
         userRepository.save(user);
@@ -149,7 +150,7 @@ public class AuthenticationService implements IAuthenticationService{
 
     @Override
     public void logout() {
-        // TODO: invalidate any empty session tokens
+        // TODO: invalidate any empty session tokens & potentially unset cookie or what do we do here?
     }
 
 
