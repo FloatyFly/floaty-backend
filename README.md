@@ -34,3 +34,4 @@ Run the services clicking arrows in docker-compose.yml file.
 - Go to Database tab on upper right
 - Add connection
 - Settings -> Host: localhost, Port: 3306 (default), User & Password as configured, Database: floaty-db
+ 
