@@ -27,16 +27,6 @@ jobs:
           platforms: linux/amd64, linux/arm64
           push: false
           tags: test-image:latest
+          load: true
           build-args: |
             SKIP_TESTS=false
-
-      - name: Run Tests
-        run: |
-          docker run --rm -v ${{ github.workspace }}/surefire-reports:/app/target/surefire-reports test-image:latest
-
-      - name: Upload Test Reports
-        uses: actions/upload-artifact@v3
-        with:
-          name: test-reports
-          path: ./surefire-reports
-
