@@ -28,8 +28,15 @@ jobs:
           push: false
           tags: test-image:latest
           build-args: |
-            SKIP_TESTS=false  # This will ensure tests are not skipped
+            SKIP_TESTS=false
 
       - name: Run Tests
         run: |
           docker run --rm test-image:latest
+
+      - name: Upload Test Reports
+        if: failure()
+        uses: actions/upload-artifact@v3
+        with:
+          name: Test Reports
+          path: ./target/surefire-reports
