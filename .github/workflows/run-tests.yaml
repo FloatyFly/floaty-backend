@@ -19,7 +19,7 @@ jobs:
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v1
 
-      - name: Build and Test Docker Image
+      - name: Build Docker Image
         uses: docker/build-push-action@v3
         with:
           context: .
@@ -27,6 +27,7 @@ jobs:
           platforms: linux/amd64, linux/arm64
           push: false
           tags: test-image:latest
-          load: true
           build-args: |
             SKIP_TESTS=false
+          outputs: |
+            type=local
