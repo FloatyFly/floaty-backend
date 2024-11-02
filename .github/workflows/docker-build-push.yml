@@ -4,10 +4,8 @@ on:
   push:
     tags:
       - '*'  # Trigger when pushing a tag (e.g., 0.0.1)
-  pull_request:
-    types: [closed]  # Trigger on pull request closure
     branches:
-      - main  # Only when PRs are merged into `main`
+      - main  # Trigger when something is directly pushed to main
 
 env:
   IMAGE_NAME: matthaeusheer/floaty-backend
