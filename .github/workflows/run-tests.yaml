@@ -3,11 +3,11 @@ name: Docker Test Pipeline
 on:
   pull_request:
     branches:
-      - master  # Trigger when PRs are opened or synchronized to be merged into master
+      - main  # Trigger when PRs are opened or synchronized to be merged into master
     types: [opened, synchronize, closed]  # Run on PR creation, updates, and closure
   push:
     branches:
-      - master  # Trigger when something is directly pushed to master (e.g., from PR merge)
+      - main  # Trigger when something is directly pushed to master (e.g., from PR merge)
 
 jobs:
   test:
