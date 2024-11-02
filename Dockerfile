@@ -8,7 +8,14 @@ RUN mvn dependency:go-offline -B
 
 COPY api api
 COPY src src
-RUN mvn clean package -DskipTests
+
+# Add a build argument to control test execution
+ARG SKIP_TESTS=true
+RUN if [ "$SKIP_TESTS" = "true" ]; then \
+      mvn clean package -DskipTests; \
+    else \
+      mvn clean package; \
+    fi
 
 # ----- Package stage
 FROM eclipse-temurin:17-jre-jammy
