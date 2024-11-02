@@ -1,14 +1,13 @@
-# .github/workflows/BuildAndPush.yml
-
 name: Docker Build and Push Pipeline
 
 on:
   push:
+    tags:
+      - '*'  # Trigger when pushing a tag (e.g., 0.0.1)
+  pull_request:
+    types: [closed]  # Trigger on pull request closure
     branches:
-      - master  # Trigger on merges to master
-  release:
-    types:
-      - created  # Trigger on tag creation
+      - master  # Only when PRs are merged into `master`
 
 env:
   IMAGE_NAME: matthaeusheer/floaty-backend
@@ -16,6 +15,7 @@ env:
 jobs:
   build_and_push:
     runs-on: ubuntu-latest
+    if: github.event.pull_request.merged == true || github.event_name == 'push'
     name: Build and Push Docker Image
     steps:
       - name: Checkout Code
@@ -30,13 +30,21 @@ jobs:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
 
+      - name: Determine Docker Image Tag
+        id: docker_tag
+        run: |
+          if [[ "${GITHUB_EVENT_NAME}" == "pull_request" ]]; then
+            echo "tag=latest" >> $GITHUB_ENV
+          elif [[ "${GITHUB_EVENT_NAME}" == "push" && "${GITHUB_REF}" == refs/tags/* ]]; then
+            tag_name="${GITHUB_REF#refs/tags/}"
+            echo "tag=${tag_name}" >> $GITHUB_ENV
+          fi
+
       - name: Build and Push Docker Image
         uses: docker/build-push-action@v3
-        with:
-          context: .
+        with:          context: .
           file: ./Dockerfile
           platforms: linux/amd64, linux/arm64
           push: true
           tags: |
-            ${{ env.IMAGE_NAME }}:latest
-            ${{ github.event_name == 'release' && 'refs/tags/' || '' }}${{ github.ref_name }}
+            ${{ env.IMAGE_NAME }}:${{ env.tag }}
