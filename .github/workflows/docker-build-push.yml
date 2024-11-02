@@ -7,7 +7,7 @@ on:
   pull_request:
     types: [closed]  # Trigger on pull request closure
     branches:
-      - master  # Only when PRs are merged into `master`
+      - main  # Only when PRs are merged into `main`
 
 env:
   IMAGE_NAME: matthaeusheer/floaty-backend
