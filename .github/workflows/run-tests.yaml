@@ -4,10 +4,7 @@ on:
   pull_request:
     branches:
       - main  # Trigger when PRs are opened or synchronized to be merged into main
-    types: [opened, synchronize, closed]  # Run on PR creation, updates, and closure
-  push:
-    branches:
-      - main  # Trigger when something is directly pushed to main (e.g., from PR merge)
+    types: [opened, synchronize]  # Run on PR creation and updates
 
 jobs:
   test:

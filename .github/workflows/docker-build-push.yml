@@ -2,12 +2,14 @@ name: Docker Build and Push Pipeline
 
 on:
   push:
+    branches:
+      - main  # Trigger on direct pushes to main
     tags:
       - '*'  # Trigger when pushing a tag (e.g., 0.0.1)
   pull_request:
-    types: [closed]  # Trigger on pull request closure
+    types: [closed]  # Trigger only when a PR is closed (merged or otherwise)
     branches:
-      - main  # Only when PRs are merged into `main`
+      - main  # Only when PRs target `main`
 
 env:
   IMAGE_NAME: matthaeusheer/floaty-backend
