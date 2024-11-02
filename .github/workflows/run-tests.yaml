@@ -32,11 +32,11 @@ jobs:
 
       - name: Run Tests
         run: |
-          docker run --rm test-image:latest
+          docker run --rm -v ${{ github.workspace }}/surefire-reports:/app/target/surefire-reports test-image:latest
 
       - name: Upload Test Reports
-        if: failure()
         uses: actions/upload-artifact@v3
         with:
-          name: Test Reports
-          path: ./target/surefire-reports
+          name: test-reports
+          path: ./surefire-reports
+

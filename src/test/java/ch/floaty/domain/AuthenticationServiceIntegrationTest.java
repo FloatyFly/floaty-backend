@@ -62,7 +62,13 @@ public class AuthenticationServiceIntegrationTest {
 
     @AfterAll
     public void tearDown() {
-        greenMail.stop();
+        if (greenMail != null && greenMail.isRunning()) {
+            try {
+                greenMail.stop();
+            } catch (IllegalStateException e) {
+                System.err.println("Failed to stop GreenMail server: " + e.getMessage());
+            }
+        }
     }
 
     @AfterEach
