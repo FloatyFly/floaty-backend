@@ -5,7 +5,7 @@ on:
     tags:
       - '*'  # Trigger when pushing a tag (e.g., 0.0.1)
     branches:
-      - main  # Trigger when something is directly pushed to main
+      - main  # Trigger when something is directly pushed to main.
 
 env:
   IMAGE_NAME: matthaeusheer/floaty-backend
