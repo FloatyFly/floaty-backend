@@ -5,7 +5,7 @@ on:
     tags:
       - '*'  # Trigger when pushing a tag (e.g., 0.0.1)
     branches:
-      - main  # Trigger when something is directly pushed to main.
+      - main  # Trigger when something is directly pushed to main (e.g. from PR).
 
 env:
   IMAGE_NAME: matthaeusheer/floaty-backend
@@ -13,7 +13,6 @@ env:
 jobs:
   build_and_push:
     runs-on: ubuntu-latest
-    if: github.event.pull_request.merged == true || github.event_name == 'push'
     name: Build and Push Docker Image
     steps:
       - name: Checkout Code
@@ -31,14 +30,17 @@ jobs:
       - name: Determine Docker Image Tag
         id: docker_tag
         run: |
-          if [[ "${GITHUB_EVENT_NAME}" == "pull_request" ]]; then
+          if [[ "${GITHUB_EVENT_NAME}" == "push" && "${GITHUB_REF}" == "refs/heads/main" ]]; then
             echo "tag=latest" >> $GITHUB_ENV
           elif [[ "${GITHUB_EVENT_NAME}" == "push" && "${GITHUB_REF}" == refs/tags/* ]]; then
             tag_name="${GITHUB_REF#refs/tags/}"
             echo "tag=${tag_name}" >> $GITHUB_ENV
+          else
+            echo "tag=latest" >> $GITHUB_ENV  # Default to 'latest' for merges into main
           fi
 
       - name: Build and Push Docker Image
+        if: env.tag
         uses: docker/build-push-action@v3
         with:
           context: .
