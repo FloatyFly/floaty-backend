@@ -9,7 +9,6 @@ on:
     branches:
       - master  # Trigger when something is directly pushed to master (e.g., from PR merge)
 
-
 jobs:
   test:
     runs-on: ubuntu-latest
