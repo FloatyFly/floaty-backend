@@ -13,7 +13,9 @@ import ch.floaty.domain.repository.IUserRepository;
 import com.icegreen.greenmail.store.FolderException;
 import com.icegreen.greenmail.util.GreenMail;
 import com.icegreen.greenmail.util.ServerSetup;
+import com.icegreen.greenmail.util.ServerSetupTest;
 import org.junit.jupiter.api.*;
+import org.junit.jupiter.api.extension.RegisterExtension;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -259,6 +261,8 @@ public class AuthenticationServiceIntegrationTest {
         // Assert
         User registeredUserFromDb = userRepository.findById(registeredUser.getId()).orElseThrow();
         assertTrue(bCryptPasswordEncoder.matches(newPassword, registeredUserFromDb.getHashedPassword()));
+
+        // TODO: There should be a test which checks that after a password reset, there are no more session tokens for the user.
     }
 
     @Test
