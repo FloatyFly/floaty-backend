@@ -4,7 +4,7 @@ FROM maven:3.9.4-eclipse-temurin-17 AS build
 WORKDIR /app
 
 COPY pom.xml .
-RUN mvn dependency:go-offline -B
+RUN mvn -q dependency:go-offline -B
 
 COPY api api
 COPY src src
