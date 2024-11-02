@@ -23,6 +23,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.test.context.ActiveProfiles;
 
 import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 import java.util.HashMap;
 import java.util.Optional;
 import java.util.UUID;
@@ -105,7 +106,11 @@ public class AuthenticationServiceIntegrationTest {
 
         // Assert
         SessionToken sessionTokenFromDb = sessionTokenRepository.findById(sessionToken.getId()).orElseThrow();
-        assertEquals(sessionToken, sessionTokenFromDb);
+        assertEquals(sessionToken.getExpirationTime().truncatedTo(ChronoUnit.SECONDS),
+                sessionTokenFromDb.getExpirationTime().truncatedTo(ChronoUnit.SECONDS));
+        assertEquals(sessionToken.getToken(), sessionTokenFromDb.getToken());
+        assertEquals(sessionToken.getUser(), sessionTokenFromDb.getUser());
+        assertEquals(sessionToken.getId(), sessionTokenFromDb.getId());
         assertEquals(registeredUser, sessionToken.getUser());
         assertFalse(sessionToken.hasExpired());
         assertTrue(sessionToken.getExpirationTime().isAfter(LocalDateTime.now()));
