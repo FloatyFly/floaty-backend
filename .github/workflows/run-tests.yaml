@@ -30,4 +30,4 @@ jobs:
           build-args: |
             SKIP_TESTS=false
           outputs: |
-            type=local
+            type=local,dest=/tmp/build-output
