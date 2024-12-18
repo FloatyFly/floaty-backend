@@ -10,6 +10,7 @@ import ch.floaty.domain.repository.IUserRepository;
 import ch.floaty.domain.model.SessionToken;
 import ch.floaty.domain.model.User;
 import ch.floaty.infrastructure.EmailService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -20,6 +21,7 @@ import java.util.regex.Pattern;
 
 @Service
 @Transactional
+@Slf4j
 public class AuthenticationService implements IAuthenticationService{
 
     @Value("${app.base.url}")
@@ -111,6 +113,7 @@ public class AuthenticationService implements IAuthenticationService{
             user.setEmailVerified(true);
             userRepository.save(user);
         }
+        log.info("Verified email '{}' for user '{}'", user.getEmail(), user.getUsername());
     }
 
     @Override
@@ -123,6 +126,7 @@ public class AuthenticationService implements IAuthenticationService{
             String eMailText = "Your password reset code: " + passwordResetToken.getToken();
             String eMailSubject = "Floaty Password Reset";
             emailService.sendSimpleEmail(user.getEmail(), eMailSubject, eMailText);
+            log.info("Initiated password reset for user '{}' and sent mail with reset token to '{}'", user.getUsername(), user.getEmail());
             return Optional.of(passwordResetToken);
         }
         return Optional.empty();
@@ -132,25 +136,30 @@ public class AuthenticationService implements IAuthenticationService{
     public void resetPassword(String inputPasswordResetToken, String newPassword) throws UserNotFoundException {
         PasswordResetToken passwordResetToken = this.passwordResetTokenRepository.findByToken(inputPasswordResetToken)
                 .orElseThrow(() -> new InvalidPasswordResetTokenException("Token not found."));
+        User user = passwordResetToken.getUser();
         if (passwordResetToken.hasExpired()) {
+            log.info("Password reset for user '{}': token expired.", user.getUsername());
             throw new TokenExpiredException();
         }
         if (passwordResetToken.isUsed()) {
+            log.info("Password reset for user '{}': token already used.", user.getUsername());
             throw new InvalidPasswordResetTokenException("Token already used.");
         }
         validatePasswordStrength(newPassword);
-        User user = passwordResetToken.getUser();
+
         passwordResetToken.setUsed(true);
         sessionTokenRepository.findByUserId(user.getId()).forEach(sessionTokenRepository::delete);
         passwordResetTokenRepository.save(passwordResetToken);
         user.setHashedPassword(bCryptPasswordEncoder.encode(newPassword));
         userRepository.save(user);
+        log.info("Did reset password for user '{}'", user.getUsername());
     }
 
 
     @Override
     public void logout() {
         // TODO: invalidate any empty session tokens & potentially unset cookie or what do we do here?
+        log.warn("Logout not yet implemented!");
     }
 
 
@@ -159,6 +168,7 @@ public class AuthenticationService implements IAuthenticationService{
         if (password == null || password.length() < 8) {
             throw new InsecurePasswordException();
         }
+
     }
 
     private void validateEmailForm(String email) throws EmailInvalidException {

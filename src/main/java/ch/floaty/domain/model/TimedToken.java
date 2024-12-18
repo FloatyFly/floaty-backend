@@ -18,11 +18,13 @@ public abstract class TimedToken {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     private String token;
+    private boolean revoked;
 
     public TimedToken(User user, Supplier<String> tokenGenerator, int ttlMinutes) {
         this.user = user;
         this.token = tokenGenerator.get();
         this.expirationTime = LocalDateTime.now().plusMinutes(ttlMinutes);
+        this.revoked = false;
     }
 
     @OneToOne
