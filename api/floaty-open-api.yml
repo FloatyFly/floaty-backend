@@ -46,7 +46,6 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/User'
-
   /flights/{userId}:
     get:
       tags:
@@ -68,7 +67,9 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Flight'
+                type: array
+                items:
+                  $ref: '#/components/schemas/Flight'
   /flights/{flightId}:
     delete:
       tags:
@@ -270,7 +271,9 @@ components:
     User:
       type: object
       required:
+        - id
         - name
+        - emailVerified
       properties:
         id:
           type: string
@@ -282,6 +285,10 @@ components:
           type: string
           example: 'Free Willy'
           description: 'The name of the user.'
+        emailVerified:
+          type: boolean
+          example: false
+          description: 'If the email has been verified by the user already or not.'
     Flight:
       type: object
       required:

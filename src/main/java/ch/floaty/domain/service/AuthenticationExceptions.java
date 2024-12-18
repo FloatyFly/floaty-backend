@@ -4,6 +4,7 @@ public class AuthenticationExceptions {
 
     public static class UserNotFoundException extends RuntimeException {
         public UserNotFoundException() {
+            super("Authentication failed.");
         }
     }
 

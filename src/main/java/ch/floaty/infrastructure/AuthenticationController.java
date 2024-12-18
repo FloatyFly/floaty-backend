@@ -1,5 +1,6 @@
 package ch.floaty.infrastructure;
 
+import ch.floaty.domain.repository.IUserRepository;
 import ch.floaty.domain.service.AuthenticationExceptions.UserNotFoundException;
 import ch.floaty.domain.service.AuthenticationExceptions.WrongPasswordException;
 import ch.floaty.domain.service.AuthenticationService;
@@ -9,6 +10,7 @@ import ch.floaty.generated.LoginRequestDto;
 import ch.floaty.generated.RegisterRequestDto;
 import ch.floaty.generated.ResetPasswordRequestDto;
 import ch.floaty.generated.UserDto;
+import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -23,13 +25,16 @@ import java.net.URI;
 import static org.springframework.http.HttpStatus.UNAUTHORIZED;
 
 @RestController
+@Slf4j
 public class AuthenticationController {
 
     AuthenticationService authenticationService;
+    IUserRepository userRepository;
     ModelMapper modelMapper = new ModelMapper();
 
-    public AuthenticationController(AuthenticationService authenticationService, EmailService emailService) {
+    public AuthenticationController(AuthenticationService authenticationService, IUserRepository userRepository) {
         this.authenticationService = authenticationService;
+        this.userRepository = userRepository;
     }
 
     @PostMapping("/auth/register")
@@ -37,22 +42,26 @@ public class AuthenticationController {
         User newUser = authenticationService.register(registerRequestDto.getUsername(), registerRequestDto.getEmail(), registerRequestDto.getPassword());
         URI location = URI.create("/users/" + newUser.getId());
         UserDto responseUserDto = modelMapper.map(newUser, UserDto.class);
+        log.info("Registered user '{}' and sent email verification link to {}.", registerRequestDto.getUsername(), registerRequestDto.getEmail());
         return ResponseEntity.created(location).body(responseUserDto);
     }
 
     @PostMapping("/auth/login")
-    public ResponseEntity<Void> login(@RequestBody LoginRequestDto loginRequestDto, HttpServletResponse response) {
+    public ResponseEntity<UserDto> login(@RequestBody LoginRequestDto loginRequestDto, HttpServletResponse response) {
         SessionToken sessionToken;
         try {
             sessionToken = authenticationService.login(loginRequestDto.getName(), loginRequestDto.getPassword());
         } catch (UserNotFoundException | WrongPasswordException exception) {
+            log.info("Login attempt failed for '{}'. Reason: {} {}", loginRequestDto.getName(), exception.getClass().getName(), exception.getMessage());
             return ResponseEntity.status(UNAUTHORIZED).body(null);
         }
         Cookie cookie = new Cookie("sessionToken", sessionToken.getToken());
         cookie.setHttpOnly(true);
         cookie.setPath("/");  // all endpoints shall return new session cookie
         response.addCookie(cookie);
-        return ResponseEntity.ok().build();
+        UserDto responseUserDto = modelMapper.map(this.userRepository.findByName(loginRequestDto.getName()), UserDto.class);
+        log.info("User '{}' logged in successfully.", loginRequestDto.getName());
+        return ResponseEntity.ok().body(responseUserDto);
     }
 
     @PostMapping("/auth/verify-email/{token}")

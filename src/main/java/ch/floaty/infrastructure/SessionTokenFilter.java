@@ -40,7 +40,7 @@ public class SessionTokenFilter extends OncePerRequestFilter {
         }
 
         if (request.getRequestURI().startsWith("/auth/")) {
-            logger.info("Bypassing security filter for URI: " + request.getRequestURI());
+            logger.debug("Bypassing security filter for URI: " + request.getRequestURI());
             chain.doFilter(request, response);
             return;
         }
