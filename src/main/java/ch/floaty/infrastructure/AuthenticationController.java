@@ -13,10 +13,8 @@ import ch.floaty.generated.UserDto;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
@@ -82,5 +80,12 @@ public class AuthenticationController {
                 resetPasswordRequestDto.getPasswordResetToken(),
                 resetPasswordRequestDto.getNewPassword());
         return ResponseEntity.ok("Password reset successful.");
+    }
+
+    @PostMapping("/auth/logout/{userId}")
+    @PreAuthorize("@userSecurity.hasUserIdOrAdmin(#userId)")
+    public ResponseEntity<String> logout(@PathVariable Long userId) {
+        authenticationService.logout(userId);
+        return ResponseEntity.ok("Logout successful.");
     }
 }
