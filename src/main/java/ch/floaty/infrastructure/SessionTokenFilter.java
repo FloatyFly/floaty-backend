@@ -39,12 +39,6 @@ public class SessionTokenFilter extends OncePerRequestFilter {
             return;
         }
 
-        if (request.getRequestURI().startsWith("/auth/")) {
-            logger.debug("Bypassing security filter for URI: " + request.getRequestURI());
-            chain.doFilter(request, response);
-            return;
-        }
-
         SessionToken validatedSessionToken;
         try {
             validatedSessionToken = sessionTokenService.validateToken(sessionToken);

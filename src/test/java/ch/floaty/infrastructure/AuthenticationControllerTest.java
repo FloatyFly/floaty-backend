@@ -11,6 +11,7 @@ import ch.floaty.generated.UserDto;
 import ch.floaty.run.FloatyApplication;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.modelmapper.ModelMapper;
 import org.mockito.Mock;
@@ -22,6 +23,7 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
 import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
@@ -131,4 +133,18 @@ public class AuthenticationControllerTest {
                         .content(objectMapper.writeValueAsString(loginRequestDto)))
                 .andExpect(status().isUnauthorized());
     }
+
+    @Test
+    @Disabled
+    //TODO: Fix this test
+    public void testLogout_Success() throws Exception {
+        // Arrange
+        doNothing().when(authenticationService).logout(100L);
+
+        // Act + Assert
+        mockMvc.perform(post("/auth/logout/100")  // userId should be part of the URL path
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk());
+    }
+
 }

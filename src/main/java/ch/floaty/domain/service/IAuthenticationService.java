@@ -14,6 +14,6 @@ public interface IAuthenticationService {
     SessionToken login(String username, String password);
     void verifyEmail(String emailVerificationToken) throws EmailAlreadyVerifiedException, EMailVerificationFailedException;
     void resetPassword(String username, String password);
-    void logout();
+    void logout(Long userId) throws UserNotFoundException;
     Optional<PasswordResetToken> initiatePasswordReset(String email);
 }

@@ -313,6 +313,31 @@ public class AuthenticationServiceIntegrationTest {
         assertThrows(AuthenticationExceptions.InvalidPasswordResetTokenException.class, () -> authenticationService.resetPassword(passwordResetToken.getToken(), "newPassword"));
     }
 
+    @Test
+    void testLogoutHappyPath() throws AuthenticationExceptions.WrongPasswordException {
+        // Arrange
+        HashMap<String, String> randomUserParameters = createRandomUserParameters();
+        String username = randomUserParameters.get("username");
+        String email = randomUserParameters.get("email");
+        String password = randomUserParameters.get("password");
+        User registeredUser = authenticationService.register(username, email, password);
+        EmailVerificationToken emailVerificationToken = emailVerificationTokenRepository.findByUser(registeredUser);
+        authenticationService.verifyEmail(emailVerificationToken.getToken());
+        SessionToken sessionToken = authenticationService.login(username, password);
+
+        // Act
+        authenticationService.logout(registeredUser.getId());
+
+        // Assert
+        assertTrue(sessionTokenRepository.findById(sessionToken.getId()).isEmpty());
+    }
+
+    @Test
+    void testLogoutWithNonExistingUser() {
+        // Act + Assert
+        assertThrows(AuthenticationExceptions.UserNotFoundException.class, () -> authenticationService.logout(123456789L));
+    }
+
     private HashMap<String, String> createRandomUserParameters() {
         String randomUUID = UUID.randomUUID().toString();
         String username = "Matty Testy" + randomUUID;

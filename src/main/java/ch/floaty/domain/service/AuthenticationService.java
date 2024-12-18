@@ -155,13 +155,12 @@ public class AuthenticationService implements IAuthenticationService{
         log.info("Did reset password for user '{}'", user.getUsername());
     }
 
-
     @Override
-    public void logout() {
-        // TODO: invalidate any empty session tokens & potentially unset cookie or what do we do here?
-        log.warn("Logout not yet implemented!");
+    public void logout(Long userId) {
+        User user = userRepository.findById(userId).orElseThrow(UserNotFoundException::new);
+        sessionTokenRepository.findByUserId(user.getId()).forEach(sessionTokenRepository::delete);
+        log.info("Logged out {}. Invalidated all session tokens.", user.getUsername());
     }
-
 
     private void validatePasswordStrength(String password) throws InsecurePasswordException {
         // TODO: Add proper strong validation.

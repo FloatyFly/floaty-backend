@@ -22,6 +22,7 @@ public class SecurityConfig {
         http
                 .authorizeHttpRequests(authorizeRequests ->
                         authorizeRequests
+                                .antMatchers("/auth/logout").authenticated()
                                 .antMatchers("/auth/**").permitAll()
                                 .anyRequest().authenticated()
                 )
