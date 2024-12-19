@@ -1,6 +1,17 @@
 version: "3"
 
 services:
+  floaty-backend:
+    image: matthaeusheer/floaty-backend:0.0.6
+    build: .
+    ports:
+      - "8080:8080"  # Expose the backend on localhost:8080 to access the application from the host
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker-compose
+    networks:
+      - backend-network
+    depends_on:
+      - floaty-db-service
   floaty-db-service:
     image: mysql:8.0
     ports:
@@ -14,6 +25,11 @@ services:
       - MYSQL_PASSWORD=db-password
     volumes:
       - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+    healthcheck:
+      test: [ "CMD-SHELL", "mysqladmin ping -h localhost --silent" ]
+      interval: 3s
+      timeout: 3s
+      retries: 20
   smtp-server:
     image: rnwood/smtp4dev
     ports:
@@ -21,17 +37,6 @@ services:
       - "2525:25"    # Expose the SMTP server on localhost:2525, handy for debugging
     networks:
         - backend-network
-  floaty-backend:
-    image: matthaeusheer/floaty-backend:0.0.6
-    build: .
-    ports:
-      - "8080:8080"  # Expose the backend on localhost:8080 to access the application from the host
-    environment:
-      - SPRING_PROFILES_ACTIVE=docker-compose
-    networks:
-      - backend-network
-    depends_on:
-      - floaty-db-service
 networks:
   backend-network:
     driver: bridge
