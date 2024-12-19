@@ -11,7 +11,8 @@ services:
     networks:
       - backend-network
     depends_on:
-      - floaty-db-service
+      floaty-db-service:
+        condition: service_healthy
   floaty-db-service:
     image: mysql:8.0
     ports:
@@ -26,10 +27,10 @@ services:
     volumes:
       - ./init.sql:/docker-entrypoint-initdb.d/init.sql
     healthcheck:
-      test: [ "CMD-SHELL", "mysqladmin ping -h localhost --silent" ]
+      test: ["CMD", "mysql", "-u", "root", "-proot", "--execute", "SHOW DATABASES;"]
       interval: 3s
-      timeout: 3s
-      retries: 20
+      retries: 30
+      timeout: 5s
   smtp-server:
     image: rnwood/smtp4dev
     ports:

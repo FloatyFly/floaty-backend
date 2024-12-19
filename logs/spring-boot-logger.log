@@ -1,0 +1,211 @@
+2024-12-19 22:32:35,257 INFO o.h.v.i.u.Version [background-preinit] HV000001: Hibernate Validator 6.2.5.Final
+2024-12-19 22:32:35,263 INFO o.s.b.StartupInfoLogger [restartedMain] Starting FloatyApplication using Java 19.0.1 on Matthauss-MacBook-Pro.local with PID 71654 (/Users/matt/code/floaty-backend/target/classes started by matt in /Users/matt/code/floaty-backend)
+2024-12-19 22:32:35,264 INFO o.s.b.SpringApplication [restartedMain] The following 1 profile is active: "local-dev"
+2024-12-19 22:32:35,444 INFO o.s.b.l.DeferredLog [restartedMain] Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
+2024-12-19 22:32:35,445 INFO o.s.b.l.DeferredLog [restartedMain] For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
+2024-12-19 22:32:36,696 INFO o.s.d.r.c.RepositoryConfigurationDelegate [restartedMain] Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2024-12-19 22:32:36,913 INFO o.s.d.r.c.RepositoryConfigurationDelegate [restartedMain] Finished Spring Data repository scanning in 205 ms. Found 5 JPA repository interfaces.
+2024-12-19 22:32:39,182 INFO o.s.b.w.e.t.TomcatWebServer [restartedMain] Tomcat initialized with port(s): 8080 (http)
+2024-12-19 22:32:39,198 INFO o.a.j.l.DirectJDKLog [restartedMain] Initializing ProtocolHandler ["http-nio-0.0.0.0-8080"]
+2024-12-19 22:32:39,200 INFO o.a.j.l.DirectJDKLog [restartedMain] Starting service [Tomcat]
+2024-12-19 22:32:39,200 INFO o.a.j.l.DirectJDKLog [restartedMain] Starting Servlet engine: [Apache Tomcat/9.0.65]
+2024-12-19 22:32:39,323 INFO o.a.j.l.DirectJDKLog [restartedMain] Initializing Spring embedded WebApplicationContext
+2024-12-19 22:32:39,323 INFO o.s.b.w.s.c.ServletWebServerApplicationContext [restartedMain] Root WebApplicationContext: initialization completed in 3876 ms
+2024-12-19 22:32:39,774 INFO o.h.j.i.u.LogHelper [restartedMain] HHH000204: Processing PersistenceUnitInfo [name: default]
+2024-12-19 22:32:39,826 INFO o.h.Version [restartedMain] HHH000412: Hibernate ORM core version 5.6.11.Final
+2024-12-19 22:32:39,991 INFO o.h.a.c.r.j.JavaReflectionManager [restartedMain] HCANN000001: Hibernate Commons Annotations {5.1.2.Final}
+2024-12-19 22:32:40,107 INFO c.z.h.HikariDataSource [restartedMain] HikariPool-1 - Starting...
+2024-12-19 22:32:40,874 INFO c.z.h.HikariDataSource [restartedMain] HikariPool-1 - Start completed.
+2024-12-19 22:32:40,892 INFO o.h.d.Dialect [restartedMain] HHH000400: Using dialect: org.hibernate.dialect.MySQL8Dialect
+2024-12-19 22:32:42,156 INFO o.h.e.t.j.p.i.JtaPlatformInitiator [restartedMain] HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+2024-12-19 22:32:42,166 INFO o.s.o.j.AbstractEntityManagerFactoryBean [restartedMain] Initialized JPA EntityManagerFactory for persistence unit 'default'
+2024-12-19 22:32:42,893 INFO o.s.b.a.h.H2ConsoleAutoConfiguration [restartedMain] H2 console available at '/h2-console'. Database available at 'jdbc:mysql://localhost:3306/floaty-db'
+2024-12-19 22:32:42,945 INFO o.s.b.w.s.RegistrationBean [restartedMain] Filter sessionTokenFilter was not registered (disabled)
+2024-12-19 22:32:43,199 INFO o.s.b.f.a.AutowiredAnnotationBeanPostProcessor [restartedMain] Autowired annotation is not supported on static fields: public static java.lang.String ch.floaty.domain.service.AuthenticationService.baseUrl
+2024-12-19 22:32:43,802 WARN o.s.b.a.s.s.UserDetailsServiceAutoConfiguration [restartedMain] 
+
+Using generated security password: 8610e024-4bdc-407e-b9f4-e0b6e6c9b285
+
+This generated password is for development use only. Your security configuration must be updated before running your application in production.
+
+2024-12-19 22:32:43,883 INFO o.s.s.w.DefaultSecurityFilterChain [restartedMain] Will secure any request with [org.springframework.security.web.session.DisableEncodeUrlFilter@1b4236cd, org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@f7e13f1, org.springframework.security.web.context.SecurityContextPersistenceFilter@63d98a39, org.springframework.security.web.header.HeaderWriterFilter@449749f2, org.springframework.security.web.authentication.logout.LogoutFilter@5b51d289, ch.floaty.infrastructure.SessionTokenFilter@4d6fa995, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@40eef28c, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@3194fbcb, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@3666f96e, org.springframework.security.web.session.SessionManagementFilter@154916b4, org.springframework.security.web.access.ExceptionTranslationFilter@1ed378e2, org.springframework.security.web.access.intercept.AuthorizationFilter@665e5eda]
+2024-12-19 22:32:43,996 WARN o.s.b.a.o.j.JpaBaseConfiguration$JpaWebConfiguration [restartedMain] spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2024-12-19 22:32:44,524 WARN o.s.b.a.m.MustacheAutoConfiguration [restartedMain] Cannot find template location: classpath:/templates/ (please add some templates, check your Mustache configuration, or set spring.mustache.check-template-location=false)
+2024-12-19 22:32:44,754 INFO o.s.b.d.a.OptionalLiveReloadServer [restartedMain] LiveReload server is running on port 35729
+2024-12-19 22:32:44,797 INFO o.a.j.l.DirectJDKLog [restartedMain] Starting ProtocolHandler ["http-nio-0.0.0.0-8080"]
+2024-12-19 22:32:44,805 WARN o.s.c.s.AbstractApplicationContext [restartedMain] Exception encountered during context initialization - cancelling refresh attempt: org.springframework.context.ApplicationContextException: Failed to start bean 'webServerStartStop'; nested exception is org.springframework.boot.web.server.PortInUseException: Port 8080 is already in use
+2024-12-19 22:32:44,809 INFO o.s.o.j.AbstractEntityManagerFactoryBean [restartedMain] Closing JPA EntityManagerFactory for persistence unit 'default'
+2024-12-19 22:32:44,812 INFO c.z.h.HikariDataSource [restartedMain] HikariPool-1 - Shutdown initiated...
+2024-12-19 22:32:44,830 INFO c.z.h.HikariDataSource [restartedMain] HikariPool-1 - Shutdown completed.
+2024-12-19 22:32:44,837 INFO o.a.j.l.DirectJDKLog [restartedMain] Pausing ProtocolHandler ["http-nio-0.0.0.0-8080"]
+2024-12-19 22:32:44,837 INFO o.a.j.l.DirectJDKLog [restartedMain] Stopping service [Tomcat]
+2024-12-19 22:32:44,875 INFO o.a.j.l.DirectJDKLog [restartedMain] Stopping ProtocolHandler ["http-nio-0.0.0.0-8080"]
+2024-12-19 22:32:44,876 INFO o.a.j.l.DirectJDKLog [restartedMain] Destroying ProtocolHandler ["http-nio-0.0.0.0-8080"]
+2024-12-19 22:32:44,888 INFO o.s.b.a.l.ConditionEvaluationReportLoggingListener [restartedMain] 
+
+Error starting ApplicationContext. To display the conditions report re-run your application with 'debug' enabled.
+2024-12-19 22:32:44,910 ERROR o.s.b.d.LoggingFailureAnalysisReporter [restartedMain] 
+
+***************************
+APPLICATION FAILED TO START
+***************************
+
+Description:
+
+Web server failed to start. Port 8080 was already in use.
+
+Action:
+
+Identify and stop the process that's listening on port 8080 or configure this application to listen on another port.
+
+2024-12-19 22:33:35,457 INFO o.h.v.i.u.Version [background-preinit] HV000001: Hibernate Validator 6.2.5.Final
+2024-12-19 22:33:35,457 INFO o.s.b.StartupInfoLogger [restartedMain] Starting FloatyApplication using Java 19.0.1 on Matthauss-MacBook-Pro.local with PID 71904 (/Users/matt/code/floaty-backend/target/classes started by matt in /Users/matt/code/floaty-backend)
+2024-12-19 22:33:35,459 INFO o.s.b.SpringApplication [restartedMain] The following 1 profile is active: "local-dev"
+2024-12-19 22:33:35,641 INFO o.s.b.l.DeferredLog [restartedMain] Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
+2024-12-19 22:33:35,642 INFO o.s.b.l.DeferredLog [restartedMain] For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
+2024-12-19 22:33:37,143 INFO o.s.d.r.c.RepositoryConfigurationDelegate [restartedMain] Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2024-12-19 22:33:37,353 INFO o.s.d.r.c.RepositoryConfigurationDelegate [restartedMain] Finished Spring Data repository scanning in 190 ms. Found 5 JPA repository interfaces.
+2024-12-19 22:33:39,500 INFO o.s.b.w.e.t.TomcatWebServer [restartedMain] Tomcat initialized with port(s): 8080 (http)
+2024-12-19 22:33:39,513 INFO o.a.j.l.DirectJDKLog [restartedMain] Initializing ProtocolHandler ["http-nio-0.0.0.0-8080"]
+2024-12-19 22:33:39,514 INFO o.a.j.l.DirectJDKLog [restartedMain] Starting service [Tomcat]
+2024-12-19 22:33:39,514 INFO o.a.j.l.DirectJDKLog [restartedMain] Starting Servlet engine: [Apache Tomcat/9.0.65]
+2024-12-19 22:33:39,631 INFO o.a.j.l.DirectJDKLog [restartedMain] Initializing Spring embedded WebApplicationContext
+2024-12-19 22:33:39,632 INFO o.s.b.w.s.c.ServletWebServerApplicationContext [restartedMain] Root WebApplicationContext: initialization completed in 3988 ms
+2024-12-19 22:33:40,060 INFO o.h.j.i.u.LogHelper [restartedMain] HHH000204: Processing PersistenceUnitInfo [name: default]
+2024-12-19 22:33:40,108 INFO o.h.Version [restartedMain] HHH000412: Hibernate ORM core version 5.6.11.Final
+2024-12-19 22:33:40,272 INFO o.h.a.c.r.j.JavaReflectionManager [restartedMain] HCANN000001: Hibernate Commons Annotations {5.1.2.Final}
+2024-12-19 22:33:40,376 INFO c.z.h.HikariDataSource [restartedMain] HikariPool-1 - Starting...
+2024-12-19 22:33:40,967 INFO c.z.h.HikariDataSource [restartedMain] HikariPool-1 - Start completed.
+2024-12-19 22:33:40,982 INFO o.h.d.Dialect [restartedMain] HHH000400: Using dialect: org.hibernate.dialect.MySQL8Dialect
+2024-12-19 22:33:42,128 INFO o.h.e.t.j.p.i.JtaPlatformInitiator [restartedMain] HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+2024-12-19 22:33:42,138 INFO o.s.o.j.AbstractEntityManagerFactoryBean [restartedMain] Initialized JPA EntityManagerFactory for persistence unit 'default'
+2024-12-19 22:33:42,838 INFO o.s.b.a.h.H2ConsoleAutoConfiguration [restartedMain] H2 console available at '/h2-console'. Database available at 'jdbc:mysql://localhost:3306/floaty-db'
+2024-12-19 22:33:42,884 INFO o.s.b.w.s.RegistrationBean [restartedMain] Filter sessionTokenFilter was not registered (disabled)
+2024-12-19 22:33:43,159 INFO o.s.b.f.a.AutowiredAnnotationBeanPostProcessor [restartedMain] Autowired annotation is not supported on static fields: public static java.lang.String ch.floaty.domain.service.AuthenticationService.baseUrl
+2024-12-19 22:33:43,767 WARN o.s.b.a.s.s.UserDetailsServiceAutoConfiguration [restartedMain] 
+
+Using generated security password: a3a74f7b-c668-4c94-9e30-abf20080cdb1
+
+This generated password is for development use only. Your security configuration must be updated before running your application in production.
+
+2024-12-19 22:33:43,856 INFO o.s.s.w.DefaultSecurityFilterChain [restartedMain] Will secure any request with [org.springframework.security.web.session.DisableEncodeUrlFilter@1889887, org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@7d4f2939, org.springframework.security.web.context.SecurityContextPersistenceFilter@a74cda2, org.springframework.security.web.header.HeaderWriterFilter@75dc51c2, org.springframework.security.web.authentication.logout.LogoutFilter@47407547, ch.floaty.infrastructure.SessionTokenFilter@4cd8a167, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@783377dc, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@30dbe5ba, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@256e7aac, org.springframework.security.web.session.SessionManagementFilter@23aa0879, org.springframework.security.web.access.ExceptionTranslationFilter@94b7e3b, org.springframework.security.web.access.intercept.AuthorizationFilter@25ab3215]
+2024-12-19 22:33:43,975 WARN o.s.b.a.o.j.JpaBaseConfiguration$JpaWebConfiguration [restartedMain] spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2024-12-19 22:33:44,502 WARN o.s.b.a.m.MustacheAutoConfiguration [restartedMain] Cannot find template location: classpath:/templates/ (please add some templates, check your Mustache configuration, or set spring.mustache.check-template-location=false)
+2024-12-19 22:33:44,720 INFO o.s.b.d.a.OptionalLiveReloadServer [restartedMain] LiveReload server is running on port 35729
+2024-12-19 22:33:44,751 INFO o.a.j.l.DirectJDKLog [restartedMain] Starting ProtocolHandler ["http-nio-0.0.0.0-8080"]
+2024-12-19 22:33:44,774 INFO o.s.b.w.e.t.TomcatWebServer [restartedMain] Tomcat started on port(s): 8080 (http) with context path ''
+2024-12-19 22:33:44,792 INFO o.s.b.StartupInfoLogger [restartedMain] Started FloatyApplication in 10.147 seconds (JVM running for 11.203)
+2024-12-19 22:36:23,073 INFO o.a.j.l.DirectJDKLog [http-nio-0.0.0.0-8080-exec-1] Initializing Spring DispatcherServlet 'dispatcherServlet'
+2024-12-19 22:36:23,074 INFO o.s.w.s.FrameworkServlet [http-nio-0.0.0.0-8080-exec-1] Initializing Servlet 'dispatcherServlet'
+2024-12-19 22:36:23,080 INFO o.s.w.s.FrameworkServlet [http-nio-0.0.0.0-8080-exec-1] Completed initialization in 5 ms
+2024-12-19 22:36:23,903 INFO c.f.i.AuthenticationController [http-nio-0.0.0.0-8080-exec-2] User 'Eliane' logged in successfully.
+2024-12-19 22:37:22,296 WARN o.s.w.s.h.AbstractHandlerExceptionResolver [http-nio-0.0.0.0-8080-exec-7] Resolved [java.lang.ClassCastException: class java.lang.String cannot be cast to class ch.floaty.domain.model.User (java.lang.String is in module java.base of loader 'bootstrap'; ch.floaty.domain.model.User is in unnamed module of loader org.springframework.boot.devtools.restart.classloader.RestartClassLoader @bd6541d)]
+2024-12-19 22:37:41,526 WARN o.s.w.s.h.AbstractHandlerExceptionResolver [http-nio-0.0.0.0-8080-exec-8] Resolved [java.lang.ClassCastException: class java.lang.String cannot be cast to class ch.floaty.domain.model.User (java.lang.String is in module java.base of loader 'bootstrap'; ch.floaty.domain.model.User is in unnamed module of loader org.springframework.boot.devtools.restart.classloader.RestartClassLoader @bd6541d)]
+2024-12-19 22:39:26,340 INFO o.s.o.j.AbstractEntityManagerFactoryBean [SpringApplicationShutdownHook] Closing JPA EntityManagerFactory for persistence unit 'default'
+2024-12-19 22:39:26,377 INFO c.z.h.HikariDataSource [SpringApplicationShutdownHook] HikariPool-1 - Shutdown initiated...
+2024-12-19 22:39:26,457 INFO c.z.h.HikariDataSource [SpringApplicationShutdownHook] HikariPool-1 - Shutdown completed.
+2024-12-19 22:39:37,903 INFO o.h.v.i.u.Version [background-preinit] HV000001: Hibernate Validator 6.2.5.Final
+2024-12-19 22:39:37,904 INFO o.s.b.StartupInfoLogger [restartedMain] Starting FloatyApplication using Java 19.0.1 on Matthauss-MacBook-Pro.local with PID 73167 (/Users/matt/code/floaty-backend/target/classes started by matt in /Users/matt/code/floaty-backend)
+2024-12-19 22:39:37,906 INFO o.s.b.SpringApplication [restartedMain] The following 1 profile is active: "local-dev"
+2024-12-19 22:39:38,150 INFO o.s.b.l.DeferredLog [restartedMain] Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
+2024-12-19 22:39:38,152 INFO o.s.b.l.DeferredLog [restartedMain] For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
+2024-12-19 22:39:42,214 INFO o.s.d.r.c.RepositoryConfigurationDelegate [restartedMain] Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2024-12-19 22:39:42,657 INFO o.s.d.r.c.RepositoryConfigurationDelegate [restartedMain] Finished Spring Data repository scanning in 426 ms. Found 5 JPA repository interfaces.
+2024-12-19 22:39:46,530 INFO o.s.b.w.e.t.TomcatWebServer [restartedMain] Tomcat initialized with port(s): 8080 (http)
+2024-12-19 22:39:46,554 INFO o.a.j.l.DirectJDKLog [restartedMain] Initializing ProtocolHandler ["http-nio-0.0.0.0-8080"]
+2024-12-19 22:39:46,556 INFO o.a.j.l.DirectJDKLog [restartedMain] Starting service [Tomcat]
+2024-12-19 22:39:46,556 INFO o.a.j.l.DirectJDKLog [restartedMain] Starting Servlet engine: [Apache Tomcat/9.0.65]
+2024-12-19 22:39:46,682 INFO o.a.j.l.DirectJDKLog [restartedMain] Initializing Spring embedded WebApplicationContext
+2024-12-19 22:39:46,683 INFO o.s.b.w.s.c.ServletWebServerApplicationContext [restartedMain] Root WebApplicationContext: initialization completed in 8529 ms
+2024-12-19 22:39:47,251 INFO o.h.j.i.u.LogHelper [restartedMain] HHH000204: Processing PersistenceUnitInfo [name: default]
+2024-12-19 22:39:47,299 INFO o.h.Version [restartedMain] HHH000412: Hibernate ORM core version 5.6.11.Final
+2024-12-19 22:39:47,523 INFO o.h.a.c.r.j.JavaReflectionManager [restartedMain] HCANN000001: Hibernate Commons Annotations {5.1.2.Final}
+2024-12-19 22:39:47,710 INFO c.z.h.HikariDataSource [restartedMain] HikariPool-1 - Starting...
+2024-12-19 22:39:48,263 INFO c.z.h.HikariDataSource [restartedMain] HikariPool-1 - Start completed.
+2024-12-19 22:39:48,281 INFO o.h.d.Dialect [restartedMain] HHH000400: Using dialect: org.hibernate.dialect.MySQL8Dialect
+2024-12-19 22:39:49,889 INFO o.h.e.t.j.p.i.JtaPlatformInitiator [restartedMain] HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+2024-12-19 22:39:49,901 INFO o.s.o.j.AbstractEntityManagerFactoryBean [restartedMain] Initialized JPA EntityManagerFactory for persistence unit 'default'
+2024-12-19 22:39:50,883 INFO o.s.b.a.h.H2ConsoleAutoConfiguration [restartedMain] H2 console available at '/h2-console'. Database available at 'jdbc:mysql://localhost:3306/floaty-db'
+2024-12-19 22:39:51,005 INFO o.s.b.w.s.RegistrationBean [restartedMain] Filter sessionTokenFilter was not registered (disabled)
+2024-12-19 22:39:51,517 INFO o.s.b.f.a.AutowiredAnnotationBeanPostProcessor [restartedMain] Autowired annotation is not supported on static fields: public static java.lang.String ch.floaty.domain.service.AuthenticationService.baseUrl
+2024-12-19 22:39:52,501 WARN o.s.b.a.s.s.UserDetailsServiceAutoConfiguration [restartedMain] 
+
+Using generated security password: 1418d11f-b5ec-42d8-98b4-4bc81a8ef78a
+
+This generated password is for development use only. Your security configuration must be updated before running your application in production.
+
+2024-12-19 22:39:52,662 INFO o.s.s.w.DefaultSecurityFilterChain [restartedMain] Will secure any request with [org.springframework.security.web.session.DisableEncodeUrlFilter@6648892c, org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@338fb957, org.springframework.security.web.context.SecurityContextPersistenceFilter@aa0b4c1, org.springframework.security.web.header.HeaderWriterFilter@69c4e25, org.springframework.security.web.authentication.logout.LogoutFilter@4497cb05, ch.floaty.infrastructure.SessionTokenFilter@30f903cc, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@38dcde3c, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@570bdf8c, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@594dde0c, org.springframework.security.web.session.SessionManagementFilter@56e45328, org.springframework.security.web.access.ExceptionTranslationFilter@7b46eedf, org.springframework.security.web.access.intercept.AuthorizationFilter@6366ce9c]
+2024-12-19 22:39:52,913 WARN o.s.b.a.o.j.JpaBaseConfiguration$JpaWebConfiguration [restartedMain] spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2024-12-19 22:39:53,730 WARN o.s.b.a.m.MustacheAutoConfiguration [restartedMain] Cannot find template location: classpath:/templates/ (please add some templates, check your Mustache configuration, or set spring.mustache.check-template-location=false)
+2024-12-19 22:39:54,076 INFO o.s.b.d.a.OptionalLiveReloadServer [restartedMain] LiveReload server is running on port 35729
+2024-12-19 22:39:54,145 INFO o.a.j.l.DirectJDKLog [restartedMain] Starting ProtocolHandler ["http-nio-0.0.0.0-8080"]
+2024-12-19 22:39:54,174 INFO o.s.b.w.e.t.TomcatWebServer [restartedMain] Tomcat started on port(s): 8080 (http) with context path ''
+2024-12-19 22:39:54,202 INFO o.s.b.StartupInfoLogger [restartedMain] Started FloatyApplication in 17.597 seconds (JVM running for 19.32)
+2024-12-19 22:43:12,741 INFO o.a.j.l.DirectJDKLog [http-nio-0.0.0.0-8080-exec-1] Initializing Spring DispatcherServlet 'dispatcherServlet'
+2024-12-19 22:43:12,749 INFO o.s.w.s.FrameworkServlet [http-nio-0.0.0.0-8080-exec-1] Initializing Servlet 'dispatcherServlet'
+2024-12-19 22:43:12,760 INFO o.s.w.s.FrameworkServlet [http-nio-0.0.0.0-8080-exec-1] Completed initialization in 10 ms
+2024-12-19 22:43:13,653 INFO c.f.i.AuthenticationController [http-nio-0.0.0.0-8080-exec-1] User 'Eliane' logged in successfully.
+2024-12-19 22:43:21,127 INFO c.f.d.s.AuthenticationService [http-nio-0.0.0.0-8080-exec-5] Logged out Eliane. Invalidated all session tokens.
+2024-12-19 22:43:29,363 INFO c.f.i.AuthenticationController [http-nio-0.0.0.0-8080-exec-8] User 'Eliane' logged in successfully.
+2024-12-19 23:01:38,754 INFO o.s.o.j.AbstractEntityManagerFactoryBean [SpringApplicationShutdownHook] Closing JPA EntityManagerFactory for persistence unit 'default'
+2024-12-19 23:01:38,773 INFO c.z.h.HikariDataSource [SpringApplicationShutdownHook] HikariPool-1 - Shutdown initiated...
+2024-12-19 23:01:38,815 INFO c.z.h.HikariDataSource [SpringApplicationShutdownHook] HikariPool-1 - Shutdown completed.
+2024-12-19 23:29:35,099 INFO o.s.b.StartupInfoLogger [main] Starting AuthenticationServiceIntegrationTest using Java 19.0.1 on Matthauss-MacBook-Pro.local with PID 83849 (started by matt in /Users/matt/code/floaty-backend)
+2024-12-19 23:29:35,102 INFO o.s.b.SpringApplication [main] The following 1 profile is active: "test"
+2024-12-19 23:29:35,108 INFO o.h.v.i.u.Version [background-preinit] HV000001: Hibernate Validator 6.2.5.Final
+2024-12-19 23:29:36,591 INFO o.s.d.r.c.RepositoryConfigurationDelegate [main] Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2024-12-19 23:29:36,838 INFO o.s.d.r.c.RepositoryConfigurationDelegate [main] Finished Spring Data repository scanning in 233 ms. Found 5 JPA repository interfaces.
+2024-12-19 23:29:38,540 INFO o.h.j.i.u.LogHelper [main] HHH000204: Processing PersistenceUnitInfo [name: default]
+2024-12-19 23:29:38,588 INFO o.h.Version [main] HHH000412: Hibernate ORM core version 5.6.11.Final
+2024-12-19 23:29:38,821 INFO o.h.a.c.r.j.JavaReflectionManager [main] HCANN000001: Hibernate Commons Annotations {5.1.2.Final}
+2024-12-19 23:29:38,994 INFO c.z.h.HikariDataSource [main] HikariPool-1 - Starting...
+2024-12-19 23:29:39,536 INFO c.z.h.HikariDataSource [main] HikariPool-1 - Start completed.
+2024-12-19 23:29:39,572 INFO o.h.d.Dialect [main] HHH000400: Using dialect: org.hibernate.dialect.H2Dialect
+2024-12-19 23:29:40,851 INFO o.h.e.t.j.p.i.JtaPlatformInitiator [main] HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+2024-12-19 23:29:40,860 INFO o.s.o.j.AbstractEntityManagerFactoryBean [main] Initialized JPA EntityManagerFactory for persistence unit 'default'
+2024-12-19 23:29:42,079 INFO o.s.b.f.a.AutowiredAnnotationBeanPostProcessor [main] Autowired annotation is not supported on static fields: public static java.lang.String ch.floaty.domain.service.AuthenticationService.baseUrl
+2024-12-19 23:29:43,028 WARN o.s.b.a.s.s.UserDetailsServiceAutoConfiguration [main] 
+
+Using generated security password: b2260702-0160-4861-9871-3411df48e5f4
+
+This generated password is for development use only. Your security configuration must be updated before running your application in production.
+
+2024-12-19 23:29:43,222 INFO o.s.s.w.DefaultSecurityFilterChain [main] Will secure any request with [org.springframework.security.web.session.DisableEncodeUrlFilter@3a61d819, org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@508abc74, org.springframework.security.web.context.SecurityContextPersistenceFilter@43d84df1, org.springframework.security.web.header.HeaderWriterFilter@71e9640, org.springframework.security.web.authentication.logout.LogoutFilter@89ff043, ch.floaty.infrastructure.SessionTokenFilter@3333245e, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@4718d320, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@46aea9f7, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@77b01226, org.springframework.security.web.session.SessionManagementFilter@6334c0d8, org.springframework.security.web.access.ExceptionTranslationFilter@49c555c3, org.springframework.security.web.access.intercept.AuthorizationFilter@45cddfd3]
+2024-12-19 23:29:43,713 WARN o.s.b.a.o.j.JpaBaseConfiguration$JpaWebConfiguration [main] spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2024-12-19 23:29:44,521 WARN o.s.b.a.m.MustacheAutoConfiguration [main] Cannot find template location: classpath:/templates/ (please add some templates, check your Mustache configuration, or set spring.mustache.check-template-location=false)
+2024-12-19 23:29:44,801 INFO o.s.b.StartupInfoLogger [main] Started AuthenticationServiceIntegrationTest in 10.439 seconds (JVM running for 12.334)
+2024-12-19 23:29:45,541 INFO c.i.g.u.UserManager [smtp:localhost:2525<-/127.0.0.1:51263] Created user login mattytestyf6018510-6cde-4a39-8a2f-7f2dac493d15@example.com for address mattytestyf6018510-6cde-4a39-8a2f-7f2dac493d15@example.com with password mattytestyf6018510-6cde-4a39-8a2f-7f2dac493d15@example.com because it didn't exist before.
+2024-12-19 23:29:45,767 INFO c.i.g.u.UserManager [smtp:localhost:2525<-/127.0.0.1:51267] Created user login mattytestyf5949352-0549-4325-8bd7-71fcef1d053b@example.com for address mattytestyf5949352-0549-4325-8bd7-71fcef1d053b@example.com with password mattytestyf5949352-0549-4325-8bd7-71fcef1d053b@example.com because it didn't exist before.
+2024-12-19 23:29:45,781 INFO c.f.d.s.AuthenticationService [main] Verified email 'mattytestyf5949352-0549-4325-8bd7-71fcef1d053b@example.com' for user 'Matty Testyf5949352-0549-4325-8bd7-71fcef1d053b'
+2024-12-19 23:29:46,020 INFO c.i.g.u.UserManager [smtp:localhost:2525<-/127.0.0.1:51268] Created user login mattytestybb5a4434-9603-4e2f-a764-a35b9b085f81@example.com for address mattytestybb5a4434-9603-4e2f-a764-a35b9b085f81@example.com with password mattytestybb5a4434-9603-4e2f-a764-a35b9b085f81@example.com because it didn't exist before.
+2024-12-19 23:29:46,047 INFO c.f.d.s.AuthenticationService [main] Initiated password reset for user 'Matty Testybb5a4434-9603-4e2f-a764-a35b9b085f81' and sent mail with reset token to 'mattytestybb5a4434-9603-4e2f-a764-a35b9b085f81@example.com'
+2024-12-19 23:29:46,159 INFO c.f.d.s.AuthenticationService [main] Did reset password for user 'Matty Testybb5a4434-9603-4e2f-a764-a35b9b085f81'
+2024-12-19 23:29:46,354 INFO c.i.g.u.UserManager [smtp:localhost:2525<-/127.0.0.1:51270] Created user login mattytestyfe190498-c144-46ff-a36b-eb54a6c80f95@example.com for address mattytestyfe190498-c144-46ff-a36b-eb54a6c80f95@example.com with password mattytestyfe190498-c144-46ff-a36b-eb54a6c80f95@example.com because it didn't exist before.
+2024-12-19 23:29:46,366 INFO c.f.d.s.AuthenticationService [main] Verified email 'mattytestyfe190498-c144-46ff-a36b-eb54a6c80f95@example.com' for user 'Matty Testyfe190498-c144-46ff-a36b-eb54a6c80f95'
+2024-12-19 23:29:46,580 INFO c.i.g.u.UserManager [smtp:localhost:2525<-/127.0.0.1:51271] Created user login mattytesty9d75eceb-1b78-4342-8397-112042bbe66e@example.com for address mattytesty9d75eceb-1b78-4342-8397-112042bbe66e@example.com with password mattytesty9d75eceb-1b78-4342-8397-112042bbe66e@example.com because it didn't exist before.
+2024-12-19 23:29:46,593 INFO c.f.d.s.AuthenticationService [main] Verified email 'mattytesty9d75eceb-1b78-4342-8397-112042bbe66e@example.com' for user 'Matty Testy9d75eceb-1b78-4342-8397-112042bbe66e'
+2024-12-19 23:29:46,697 INFO c.f.d.s.AuthenticationService [main] Logged out Matty Testy9d75eceb-1b78-4342-8397-112042bbe66e. Invalidated all session tokens.
+2024-12-19 23:29:46,835 INFO c.i.g.u.UserManager [smtp:localhost:2525<-/127.0.0.1:51272] Created user login mattytesty83b6262e-43fe-4587-ac11-e845e7f248af@example.com for address mattytesty83b6262e-43fe-4587-ac11-e845e7f248af@example.com with password mattytesty83b6262e-43fe-4587-ac11-e845e7f248af@example.com because it didn't exist before.
+2024-12-19 23:29:46,845 INFO c.f.d.s.AuthenticationService [main] Verified email 'mattytesty83b6262e-43fe-4587-ac11-e845e7f248af@example.com' for user 'Matty Testy83b6262e-43fe-4587-ac11-e845e7f248af'
+2024-12-19 23:29:46,962 INFO c.i.g.u.UserManager [smtp:localhost:2525<-/127.0.0.1:51273] Created user login mattytesty51757260-dcaa-4073-be1e-b72bb17328be@example.com for address mattytesty51757260-dcaa-4073-be1e-b72bb17328be@example.com with password mattytesty51757260-dcaa-4073-be1e-b72bb17328be@example.com because it didn't exist before.
+2024-12-19 23:29:46,978 INFO c.f.d.s.AuthenticationService [main] Initiated password reset for user 'Matty Testy51757260-dcaa-4073-be1e-b72bb17328be' and sent mail with reset token to 'mattytesty51757260-dcaa-4073-be1e-b72bb17328be@example.com'
+2024-12-19 23:29:46,985 INFO c.f.d.s.AuthenticationService [main] Password reset for user 'Matty Testy51757260-dcaa-4073-be1e-b72bb17328be': token expired.
+2024-12-19 23:29:47,086 INFO c.i.g.u.UserManager [smtp:localhost:2525<-/127.0.0.1:51275] Created user login mattytestyfb282e13-e0f3-4aeb-9c86-c5c0b53021bf@example.com for address mattytestyfb282e13-e0f3-4aeb-9c86-c5c0b53021bf@example.com with password mattytestyfb282e13-e0f3-4aeb-9c86-c5c0b53021bf@example.com because it didn't exist before.
+2024-12-19 23:29:47,209 INFO c.i.g.u.UserManager [smtp:localhost:2525<-/127.0.0.1:51276] Created user login mattytesty4bde972d-920c-4bbe-86b2-27c387c630d5@example.com for address mattytesty4bde972d-920c-4bbe-86b2-27c387c630d5@example.com with password mattytesty4bde972d-920c-4bbe-86b2-27c387c630d5@example.com because it didn't exist before.
+2024-12-19 23:29:47,224 INFO c.f.d.s.AuthenticationService [main] Initiated password reset for user 'Matty Testy4bde972d-920c-4bbe-86b2-27c387c630d5' and sent mail with reset token to 'mattytesty4bde972d-920c-4bbe-86b2-27c387c630d5@example.com'
+2024-12-19 23:29:47,321 INFO c.f.d.s.AuthenticationService [main] Did reset password for user 'Matty Testy4bde972d-920c-4bbe-86b2-27c387c630d5'
+2024-12-19 23:29:47,331 INFO c.f.d.s.AuthenticationService [main] Password reset for user 'Matty Testy4bde972d-920c-4bbe-86b2-27c387c630d5': token already used.
+2024-12-19 23:29:47,457 INFO c.i.g.u.UserManager [smtp:localhost:2525<-/127.0.0.1:51278] Created user login mattytesty2e3292ae-b687-4e88-8d28-f385a5c1ba9a@example.com for address mattytesty2e3292ae-b687-4e88-8d28-f385a5c1ba9a@example.com with password mattytesty2e3292ae-b687-4e88-8d28-f385a5c1ba9a@example.com because it didn't exist before.
+2024-12-19 23:29:47,651 INFO c.i.g.u.UserManager [smtp:localhost:2525<-/127.0.0.1:51279] Created user login mattytestyb8417d28-05b2-4af4-8ae4-487503916bcf@example.com for address mattytestyb8417d28-05b2-4af4-8ae4-487503916bcf@example.com with password mattytestyb8417d28-05b2-4af4-8ae4-487503916bcf@example.com because it didn't exist before.
+2024-12-19 23:29:47,666 INFO c.f.d.s.AuthenticationService [main] Verified email 'mattytestyb8417d28-05b2-4af4-8ae4-487503916bcf@example.com' for user 'Matty Testyb8417d28-05b2-4af4-8ae4-487503916bcf'
+2024-12-19 23:29:47,819 INFO c.i.g.u.UserManager [smtp:localhost:2525<-/127.0.0.1:51280] Created user login mattytesty146a6fa2-5843-4671-8394-ba2d02b06c18@example.com for address mattytesty146a6fa2-5843-4671-8394-ba2d02b06c18@example.com with password mattytesty146a6fa2-5843-4671-8394-ba2d02b06c18@example.com because it didn't exist before.
+2024-12-19 23:29:47,833 INFO c.f.d.s.AuthenticationService [main] Initiated password reset for user 'Matty Testy146a6fa2-5843-4671-8394-ba2d02b06c18' and sent mail with reset token to 'mattytesty146a6fa2-5843-4671-8394-ba2d02b06c18@example.com'
+2024-12-19 23:29:47,858 INFO o.s.o.j.AbstractEntityManagerFactoryBean [SpringApplicationShutdownHook] Closing JPA EntityManagerFactory for persistence unit 'default'
+2024-12-19 23:29:47,859 INFO o.h.t.s.i.SchemaDropperImpl$DelayedDropActionImpl [SpringApplicationShutdownHook] HHH000477: Starting delayed evictData of schema as part of SessionFactory shut-down'
+2024-12-19 23:29:47,862 WARN o.h.e.j.s.SqlExceptionHelper [SpringApplicationShutdownHook] SQL Error: 90121, SQLState: 90121
+2024-12-19 23:29:47,862 ERROR o.h.e.j.s.SqlExceptionHelper [SpringApplicationShutdownHook] Database is already closed (to disable automatic closing at VM shutdown, add ";DB_CLOSE_ON_EXIT=FALSE" to the db URL) [90121-214]
+2024-12-19 23:29:47,864 WARN o.h.e.j.s.SqlExceptionHelper [SpringApplicationShutdownHook] SQL Error: 90121, SQLState: 90121
+2024-12-19 23:29:47,864 ERROR o.h.e.j.s.SqlExceptionHelper [SpringApplicationShutdownHook] Database is already closed (to disable automatic closing at VM shutdown, add ";DB_CLOSE_ON_EXIT=FALSE" to the db URL) [90121-214]
+2024-12-19 23:29:47,864 WARN o.s.b.f.s.DisposableBeanAdapter [SpringApplicationShutdownHook] Invocation of destroy method failed on bean with name 'entityManagerFactory': org.hibernate.exception.JDBCConnectionException: Unable to release JDBC Connection used for DDL execution
+2024-12-19 23:29:47,865 INFO c.z.h.HikariDataSource [SpringApplicationShutdownHook] HikariPool-1 - Shutdown initiated...
+2024-12-19 23:29:47,868 INFO c.z.h.HikariDataSource [SpringApplicationShutdownHook] HikariPool-1 - Shutdown completed.
