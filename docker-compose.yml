@@ -4,7 +4,7 @@ services:
   floaty-db-service:
     image: mysql:8.0
     ports:
-      - "3306:3306" # Expose MySQL on localhost:3306 (the classic mysql port)
+      - "3306:3306"  # Handy for debugging if the backend is started on the host and not in docker network
     networks:
       - backend-network
     environment:
@@ -18,12 +18,16 @@ services:
     image: rnwood/smtp4dev
     ports:
       - "5001:80"    # Expose the web UI on localhost:5001
-      - "2525:25"    # Expose the SMTP server on localhost:2525
+      - "2525:25"    # Expose the SMTP server on localhost:2525, handy for debugging
+    networks:
+        - backend-network
   floaty-backend:
-    image: matthaeusheer/floaty-backend:0.0.4
+    image: matthaeusheer/floaty-backend:0.0.5
     build: .
     ports:
-      - "8080:8080"
+      - "8080:8080"  # Expose the backend on localhost:8080 to access the application from the host
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker-compose
     networks:
       - backend-network
     depends_on:
