@@ -39,6 +39,12 @@ public class SessionTokenFilter extends OncePerRequestFilter {
             return;
         }
 
+        // From /auth, only for /auth/logout a valid session token is required
+        if (request.getRequestURI().startsWith("/auth") && !request.getRequestURI().equals("/auth/logout")) {
+            chain.doFilter(request, response);
+            return;
+        }
+
         SessionToken validatedSessionToken;
         try {
             validatedSessionToken = sessionTokenService.validateToken(sessionToken);

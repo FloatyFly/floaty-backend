@@ -10,7 +10,6 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 @ComponentScan("ch.floaty")
 @EnableJpaRepositories("ch.floaty")
 @EntityScan("ch.floaty")
-@Import(WebConfig.class)
 public class FloatyApplicationConfig {
 
 }

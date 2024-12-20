@@ -1,6 +1,7 @@
 package ch.floaty.config;
 
 import ch.floaty.infrastructure.SessionTokenFilter;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -9,6 +10,13 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+
+import java.util.Arrays;
+
+import static java.util.Arrays.asList;
 
 @Configuration
 @EnableWebSecurity
@@ -16,10 +24,12 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 public class SecurityConfig {
 
     private SecurityFilterChain filterChain;
+    @Value("${cors.allowedOrigins}") String corsAllowedOrigins;
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http, SessionTokenFilter sessionTokenFilter) throws Exception {
         http
+                .cors().configurationSource(corsConfigurationSource()).and()
                 .authorizeHttpRequests(authorizeRequests ->
                         authorizeRequests
                                 .antMatchers("/auth/logout").authenticated()
@@ -27,7 +37,7 @@ public class SecurityConfig {
                                 .anyRequest().authenticated()
                 )
                 .addFilterBefore(sessionTokenFilter, UsernamePasswordAuthenticationFilter.class)
-                .csrf().disable(); // TODO: Disable CSRF for now (enable for production with appropriate configurations)
+                .csrf().disable();
 
         return http.build();
     }
@@ -38,5 +48,18 @@ public class SecurityConfig {
         registration.setEnabled(false);
         return registration;
     }
-}
 
+    @Bean
+    public CorsConfigurationSource corsConfigurationSource() {
+        CorsConfiguration configuration = new CorsConfiguration();
+        configuration.setAllowedOrigins(asList(corsAllowedOrigins.split(",")));
+        configuration.setAllowedMethods(asList("GET", "POST", "PUT", "DELETE", "OPTIONS"));
+        configuration.setAllowedHeaders(asList("Content-Type", "Authorization", "X-Requested-With"));
+        configuration.setAllowCredentials(true);
+        configuration.setMaxAge(3600L);
+        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        source.registerCorsConfiguration("/**", configuration);
+        return source;
+    }
+
+}
