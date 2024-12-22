@@ -28,6 +28,8 @@ public class AuthenticationService implements IAuthenticationService{
     public static String baseUrl;
     private static final String EMAIL_REGEX = "^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$";
     private static final Pattern EMAIL_PATTERN = Pattern.compile(EMAIL_REGEX);
+    @Value("${email.verification.url}")
+    private String emailVerificationUrl;
 
     BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
     IUserRepository userRepository;
@@ -60,13 +62,24 @@ public class AuthenticationService implements IAuthenticationService{
         String hashedPassword = bCryptPasswordEncoder.encode(password);
         User newUser = new User(username, email, hashedPassword);
         User storedUser = this.userRepository.save(newUser);
+
         EmailVerificationToken emailVerificationToken = new EmailVerificationToken(storedUser);
         this.emailVerificationTokenRepository.save(emailVerificationToken);
-        String eMailText = "Your email verification code: " + emailVerificationToken.getToken();
+
+        String eMailText =
+                "Only one step left to start using Floaty! \n\n" +
+                "Enter the code in the verification page of the app: \n\n" +
+                emailVerificationToken.getToken() + "\n\n\n\n" +
+                "If you closed the app, you can also click on the following link to verify your email: \n\n" +
+                emailVerificationUrl + "\n\n\n\n" +
+                "Best, Floaty Team";
+
         String eMailSubject = "Floaty Email Verification";
         emailService.sendSimpleEmail(storedUser.getEmail(), eMailSubject, eMailText);
+
         return storedUser;
     }
+
 
     private void validateEmailNotTaken(String email) throws EMailAlreadyUsedException {
         if (this.userRepository.existsByEmail(email)) {
