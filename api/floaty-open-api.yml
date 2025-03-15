@@ -294,8 +294,7 @@ components:
           type: string
           description: 'A unique id for this user. Property must not be given when creating a new user.'
           maxLength: 14
-          example: 'USER0000123456'
-          pattern: 'USER[0-9]{10}'
+          example: '1'
         name:
           type: string
           example: 'Free Willy'
