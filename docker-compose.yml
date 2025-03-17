@@ -7,7 +7,10 @@ services:
     ports:
       - "8080:8080"  # Expose the backend on localhost:8080 to access the application from the host
     environment:
-      - SPRING_PROFILES_ACTIVE=docker-compose
+      - SPRING_PROFILES_ACTIVE=${SPRING_PROFILES_ACTIVE}
+      - SENDGRID_API_KEY=${SENDGRID_API_KEY}
+      - MYSQL_USER=${MYSQL_USER}
+      - MYSQL_PASSWORD=${DB_PASSWORD}
     networks:
       - backend-network
     depends_on:
@@ -20,10 +23,10 @@ services:
     networks:
       - backend-network
     environment:
-      - MYSQL_ROOT_PASSWORD=root
-      - MYSQL_DATABASE=floaty-db
-      - MYSQL_USER=db-user
-      - MYSQL_PASSWORD=db-password
+      - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
+      - MYSQL_DATABASE=${MYSQL_DATABASE}
+      - MYSQL_USER=${MYSQL_USER}
+      - MYSQL_PASSWORD=${DB_PASSWORD}
     volumes:
       - ./init.sql:/docker-entrypoint-initdb.d/init.sql
     healthcheck:
