@@ -1,46 +1,85 @@
-version: "3"
-
 services:
   floaty-backend:
-    image: matthaeusheer/floaty-backend:0.0.10
+    container_name: floaty-backend
+    image: matthaeusheer/floaty-backend:0.0.12
     build: .
     ports:
-      - "8080:8080"  # Expose the backend on localhost:8080 to access the application from the host
+      - "8080:8080"  # Exposing the backend on localhost:8080 to access the application from the host
+    restart: unless-stopped
     environment:
-      - SPRING_PROFILES_ACTIVE=${SPRING_PROFILES_ACTIVE}
-      - SENDGRID_API_KEY=${SENDGRID_API_KEY}
-      - MYSQL_USER=${MYSQL_USER}
-      - MYSQL_PASSWORD=${DB_PASSWORD}
+      - SPRING_PROFILES_ACTIVE=${SPRING_PROFILES_ACTIVE:?SPRING_PROFILES_ACTIVE is required}
+      - SENDGRID_API_KEY=${SENDGRID_API_KEY:?SENDGRID_API_KEY is required}
+      - MYSQL_USER=${MYSQL_USER:?MYSQL_USER is required}
+      - MYSQL_PASSWORD=${DB_PASSWORD:?DB_PASSWORD is required}
     networks:
       - backend-network
     depends_on:
       floaty-db-service:
         condition: service_healthy
+    deploy:
+      resources:
+        limits:
+          cpus: '1.5'
+          memory: 2G
+    healthcheck:
+      test: [ "CMD", "curl", "-f", "http://localhost:8080/actuator/health" ]
+      interval: 15s
+      timeout: 10s
+      retries: 5
+      start_period: 60s
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
+
   floaty-db-service:
+    container_name: floaty-db
     image: mysql:8.0
+    restart: unless-stopped
     ports:
-      - "3306:3306"  # Handy for debugging if the backend is started on the host and not in docker network
+      - "3306:3306"
     networks:
       - backend-network
     environment:
-      - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
-      - MYSQL_DATABASE=${MYSQL_DATABASE}
-      - MYSQL_USER=${MYSQL_USER}
-      - MYSQL_PASSWORD=${DB_PASSWORD}
+      - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD:?MYSQL_ROOT_PASSWORD is required}
+      - MYSQL_DATABASE=${MYSQL_DATABASE:?MYSQL_DATABASE is required}
+      - MYSQL_USER=${MYSQL_USER:?MYSQL_USER is required}
+      - MYSQL_PASSWORD=${DB_PASSWORD:?DB_PASSWORD is required}
     volumes:
-      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+      - mysql_data:/var/lib/mysql
     healthcheck:
-      test: ["CMD", "mysql", "-u", "root", "-proot", "--execute", "SHOW DATABASES;"]
+      test: /bin/sh -c 'mysql -u root -p"$$MYSQL_ROOT_PASSWORD" --execute "SHOW DATABASES;"'
       interval: 3s
       retries: 30
       timeout: 5s
+    deploy:
+      resources:
+        limits:
+          cpus: '1'
+          memory: 2G
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
+
   smtp-server:
+    profiles: ["dev"]
+    container_name: floaty-smtp
     image: rnwood/smtp4dev
+    restart: unless-stopped
     ports:
       - "5001:80"    # Expose the web UI on localhost:5001
-      - "2525:25"    # Expose the SMTP server on localhost:2525, handy for debugging
+      - "2525:25"    # Expose the SMTP server on localhost:2525
     networks:
-        - backend-network
+      - backend-network
+
 networks:
   backend-network:
     driver: bridge
+    name: floaty-network
+
+volumes:
+  mysql_data:
+    name: floaty-mysql-data

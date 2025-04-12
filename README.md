@@ -1,21 +1,14 @@
 # floaty-backend
-Java Spring Boot backend for the floaty project.
+Java Spring Boot backend for the floaty project incl. a MySQL database.
 
-## Installation
-### Docker
-#### Build and run the docker image
-```docker build -t matthaeusheer/floaty-backend:latest .```  
-```docker run -p 8080:8080 matthaeusheer/floaty-backend:latest```  
-```curl loaclhost:8080/users```
+## Getting Started
 
-#### Build and run via docker-compose
-This will enable the possibility to directly run a MySQL database alongside the backend locally.
+### Using _docker compose_
+Productive:
+```docker compose up```
 
-Build the necessary images using  
-```docker-compose build```
-
-Run the services using  
-```docker-compose up```
+Dev (for example includes smtp4dev for email testing):
+```docker compose --profile dev up```
 
 ### Using IDEA
 #### Possibility 1 - run spring boot locally
@@ -69,3 +62,6 @@ This allows traffic from https://app.floatyfly.com/.
 #### EMail DNS
 * CNAME & MX & TXT: For mailserver and spam protection check the Godaddy Settings under "My Products" -> "FloatyFly" -> "Email" -> "Deine EMail verwalten" (three dots) -> "Email Ziel einrichten" to see all necessary DNS records for EMail.
 
+### Database
+* For local development, H2 or MySQL can be used. The MySQL database is being run in a docker container (can be started via docker compose).
+* For production, also MySQL is used similarly.

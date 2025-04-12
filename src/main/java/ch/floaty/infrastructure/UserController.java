@@ -58,26 +58,6 @@ public class UserController {
         return response;
     }
 
-    @GetMapping(value = "/", produces = MediaType.TEXT_HTML_VALUE)
-    @ResponseBody
-    public String root() {
-        System.out.println("Calling root path.");
-        return "<html>\n" + "<header><title>Welcome</title></header>\n" +
-                "<body>\n" +
-                "<pre>\n" +
-                "\n" +
-                "                                                                                                                                                                  ___  \n" +
-                "               ___     _                      _       _  _     \n" +
-                "              | __|   | |     ___    __ _    | |_    | || |    \n" +
-                "              | _|    | |    / _ |  / _` |   |  _|   |_, |    \n" +
-                "             _|_|_   _|_|_   |___/  |__,_|   |__|   _|__/     \n" +
-                "           _| ''' |_|''''''|_|''''|_|'''''|_|'''''|_| '''''| .'\n" +
-                "           '`-0-0-''`-0-0-''`-0-0-''`-0-0-''`-0-0-''`-0-0-' " +
-                "</pre>\n" +
-                "</body>\n" +
-                "</html>";
-    }
-
     private static UserDto toUserDto(User user) {
         return modelMapper.map(user, UserDto.class);
     }

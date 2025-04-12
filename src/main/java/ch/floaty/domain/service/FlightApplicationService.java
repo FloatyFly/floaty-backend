@@ -39,6 +39,13 @@ public class FlightApplicationService implements IFlightApplicationService {
     }
 
     @Override
+    public Flight updateFlight(UUID flightUUID, FlightParameters flightParameters) {
+        Flight flight = flightRepository.findById(flightUUID.toString()).orElseThrow(() -> new IllegalArgumentException("Flight not found"));
+        flight.setFlightParameters(flightParameters);
+        return flightRepository.save(flight);
+    }
+
+    @Override
     public void deleteFlight(UUID flightUUID) throws EmptyResultDataAccessException {
         flightRepository.deleteById(flightUUID.toString());
     }

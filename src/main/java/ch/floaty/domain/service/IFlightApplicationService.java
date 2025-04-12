@@ -12,6 +12,7 @@ public interface IFlightApplicationService {
     public Flight createFlight(User user, FlightParameters flightParameters) throws DateTimeParseException;
     public List<Flight> findAllFlights();
     public List<Flight> findFlights(User user);
+    public Flight updateFlight(UUID flightUUID, FlightParameters flightParameters);
     public void deleteFlight(UUID flightId);
 
 }

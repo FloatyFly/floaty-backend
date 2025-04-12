@@ -7,6 +7,7 @@ import ch.floaty.domain.service.IFlightApplicationService;
 import ch.floaty.domain.repository.IFlightRepository;
 import ch.floaty.domain.repository.IUserRepository;
 import ch.floaty.generated.FlightDto;
+import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.http.ResponseEntity;
@@ -26,6 +27,7 @@ import static java.util.Collections.emptyList;
 import static java.util.stream.Collectors.toList;
 
 @RestController
+@Slf4j
 public class FlightController {
     private final IFlightApplicationService flightApplicationService;
     private final ModelMapper modelMapper = new ModelMapper();
@@ -56,8 +58,38 @@ public class FlightController {
 
         FlightDto responseFlightDto = modelMapper.map(flight, FlightDto.class);
         URI location = URI.create("/flights/" + responseFlightDto.getFlightId());
-        System.out.println("Added flight: ID=" + responseFlightDto.getFlightId() + ", Takeoff=" + responseFlightDto.getTakeOff() + ", Duration=" + responseFlightDto.getDuration() + ", Date=" + responseFlightDto.getDateTime());
+        log.info("Added flight: ID={}, Takeoff={}, Duration={}, Date={}", responseFlightDto.getFlightId(), responseFlightDto.getTakeOff(), responseFlightDto.getDuration(), responseFlightDto.getDateTime());
         return ResponseEntity.created(location).body(responseFlightDto);
+    }
+
+    @PutMapping("/flights/{flightId}")
+    public ResponseEntity<FlightDto> updateFlight(@PathVariable String flightId, @Validated @RequestBody FlightDto flightDto) {
+        UUID flightUUID;
+        try {
+            flightUUID = UUID.fromString(flightId);
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.badRequest().build();
+        }
+        Flight flight = flightRepository.findById(flightUUID.toString()).orElse(null);
+        if (flight == null) {
+            return ResponseEntity.notFound().build();
+        }
+        LocalDateTime localDateTime;
+        try {
+            localDateTime = LocalDateTime.parse(flightDto.getDateTime());
+        } catch (DateTimeParseException exception) {
+            return ResponseEntity.badRequest().build();
+        }
+        FlightParameters flightParameters = new FlightParameters(
+                localDateTime,
+                flightDto.getTakeOff(),
+                flightDto.getDuration(),
+                flightDto.getDescription()
+        );
+        Flight updatedFlight = flightApplicationService.updateFlight(flightUUID, flightParameters);
+        FlightDto responseFlightDto = modelMapper.map(updatedFlight, FlightDto.class);
+        log.info("Updated flight: ID={}, Takeoff={}, Duration={}, Date={}", responseFlightDto.getFlightId(), responseFlightDto.getTakeOff(), responseFlightDto.getDuration(), responseFlightDto.getDateTime());
+        return ResponseEntity.ok(responseFlightDto);
     }
 
     @GetMapping("/flights")
@@ -91,6 +123,7 @@ public class FlightController {
         } catch (EmptyResultDataAccessException e) {
             return ResponseEntity.notFound().build();
         }
+        log.info("Deleted flight: ID={}", flightId);
         return ResponseEntity.noContent().build();
     }
 }

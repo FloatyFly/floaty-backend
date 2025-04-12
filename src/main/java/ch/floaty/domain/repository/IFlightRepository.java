@@ -12,4 +12,5 @@ public interface IFlightRepository extends CrudRepository<Flight, String> {
 
     List<Flight> findByUser(User user);
 
+
 }

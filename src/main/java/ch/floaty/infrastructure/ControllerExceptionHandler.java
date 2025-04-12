@@ -3,6 +3,7 @@ package ch.floaty.infrastructure;
 import ch.floaty.domain.service.AuthenticationExceptions;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -10,6 +11,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.server.ResponseStatusException;
 
 @ControllerAdvice
+@Slf4j
 public class ControllerExceptionHandler {
 
     @ExceptionHandler(ResponseStatusException.class)
@@ -19,8 +21,7 @@ public class ControllerExceptionHandler {
 
     @ExceptionHandler(Exception.class)
     public ResponseEntity<String> handleGenericException(Exception ex) {
-        // TODO: Add proper logging.
-        System.err.println("Unexpected error: " + ex.getMessage());
+        log.error("Unexpected error: " + ex.getMessage(), ex);
         return new ResponseEntity<>("An unexpected error occurred. We are looking into it. Please try again later.", HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
