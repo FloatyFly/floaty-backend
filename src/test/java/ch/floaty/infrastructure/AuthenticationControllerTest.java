@@ -2,6 +2,7 @@ package ch.floaty.infrastructure;
 
 import ch.floaty.domain.model.SessionToken;
 import ch.floaty.domain.model.User;
+import ch.floaty.domain.repository.IUserRepository;
 import ch.floaty.domain.service.AuthenticationExceptions.UserNotFoundException;
 import ch.floaty.domain.service.AuthenticationExceptions.WrongPasswordException;
 import ch.floaty.domain.service.AuthenticationService;
@@ -20,17 +21,18 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
 
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.when;
-import static org.springframework.test.web.client.match.MockRestRequestMatchers.jsonPath;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @SpringBootTest(classes = FloatyApplication.class)
 @AutoConfigureMockMvc
+@ActiveProfiles("dev-h2")
 public class AuthenticationControllerTest {
 
     @Autowired
@@ -38,6 +40,8 @@ public class AuthenticationControllerTest {
 
     @MockBean
     private AuthenticationService authenticationService;
+    @MockBean
+    private IUserRepository userRepository;
 
     @Autowired
     private ObjectMapper objectMapper;
@@ -93,6 +97,10 @@ public class AuthenticationControllerTest {
         sessionToken.setToken("token123");
         when(authenticationService.login(loginRequestDto.getName(), loginRequestDto.getPassword()))
                 .thenReturn(sessionToken);
+        when(userRepository.findByName(loginRequestDto.getName()))
+                .thenReturn(this.newUser);
+        when(modelMapper.map(this.newUser, UserDto.class))
+                .thenReturn(this.userDto);
 
         // Act + Assert
         mockMvc.perform(post("/auth/login")
