@@ -5,15 +5,22 @@ DROP TABLE IF EXISTS t_session_token;
 DROP TABLE IF EXISTS t_flight;
 DROP TABLE IF EXISTS t_user;
 DROP TABLE IF EXISTS user_seq;
+DROP TABLE IF EXISTS hibernate_sequence;
 
+-- Create sequence table if it doesn't exist
+CREATE TABLE IF NOT EXISTS hibernate_sequence (
+    next_val BIGINT
+);
 -- Create sequence table if it doesn't exist
 CREATE TABLE IF NOT EXISTS user_seq (
     next_val BIGINT
 );
 -- Initialize the sequence if empty
 INSERT INTO user_seq (next_val) SELECT 1 WHERE NOT EXISTS (SELECT * FROM user_seq);
+INSERT INTO hibernate_sequence (next_val) SELECT 1 WHERE NOT EXISTS (SELECT * FROM hibernate_sequence);
 -- Otherwise update it
 UPDATE user_seq SET next_val = 1;
+UPDATE hibernate_sequence SET next_val = 1;
 
 -- Create tables
 CREATE TABLE t_user
