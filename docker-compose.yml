@@ -1,7 +1,7 @@
 services:
   floaty-backend:
     container_name: floaty-backend
-    image: matthaeusheer/floaty-backend:0.0.12
+    image: matthaeusheer/floaty-backend:0.0.13
     build: .
     ports:
       - "8080:8080"  # Exposing the backend on localhost:8080 to access the application from the host
