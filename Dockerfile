@@ -10,7 +10,7 @@ COPY api api
 COPY src src
 
 # Add a build argument to control test execution
-ARG SKIP_TESTS=true
+ARG SKIP_TESTS=false
 RUN if [ "$SKIP_TESTS" = "true" ]; then \
       mvn clean package -DskipTests; \
     else \

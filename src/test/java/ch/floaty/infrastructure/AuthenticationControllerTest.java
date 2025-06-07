@@ -151,7 +151,7 @@ public class AuthenticationControllerTest {
         doNothing().when(authenticationService).logout(100L);
 
         // Act + Assert
-        mockMvc.perform(post("/auth/logout/100")  // userId should be part of the URL path
+        mockMvc.perform(post("/auth/logout/100")
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk());
     }

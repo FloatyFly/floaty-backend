@@ -1,8 +1,10 @@
 -- Drop existing tables if they exist
+DROP TABLE IF EXISTS t_glider;
 DROP TABLE IF EXISTS t_email_verification_token;
 DROP TABLE IF EXISTS t_password_reset_token;
 DROP TABLE IF EXISTS t_session_token;
 DROP TABLE IF EXISTS t_flight;
+DROP TABLE IF EXISTS t_spot;
 DROP TABLE IF EXISTS t_user;
 DROP TABLE IF EXISTS user_seq;
 DROP TABLE IF EXISTS hibernate_sequence;
@@ -33,6 +35,29 @@ CREATE TABLE t_user
     PRIMARY KEY (id)
 );
 
+CREATE TABLE t_spot
+(
+    id                  BIGINT          NOT NULL,
+    name                VARCHAR(128)    NOT NULL,
+    fk_user_id          BIGINT          NOT NULL,
+    latitude            DOUBLE          NOT NULL,
+    longitude           DOUBLE          NOT NULL,
+    altitude            DOUBLE          NOT NULL,
+    description         VARCHAR(128)    NOT NULL,
+    is_launch_site      BOOLEAN         NOT NULL,
+    is_landing_site     BOOLEAN         NOT NULL,
+    PRIMARY KEY (id),
+    FOREIGN KEY (fk_user_id) REFERENCES t_user(id) ON DELETE CASCADE
+);
+
+CREATE TABLE t_glider
+(
+    id                  BIGINT          NOT NULL,
+    fk_user_id          BIGINT          NOT NULL,
+    manufacturer        VARCHAR(128)    NOT NULL,
+    model               VARCHAR(128)    NOT NULL
+);
+
 CREATE TABLE t_flight
 (
     id                  VARCHAR(64)     NOT NULL,
@@ -41,8 +66,12 @@ CREATE TABLE t_flight
     take_off            VARCHAR(128)    NOT NULL,
     duration            BIGINT          NOT NULL,
     description         VARCHAR(4096)   NOT NULL,
+    fk_launch_site_id   BIGINT          NOT NULL,
+    fk_landing_site_id  BIGINT          NOT NULL,
     PRIMARY KEY (id),
-    FOREIGN KEY (user_id) REFERENCES t_user(id) ON DELETE CASCADE
+    FOREIGN KEY (user_id) REFERENCES t_user(id) ON DELETE CASCADE,
+    FOREIGN KEY (fk_launch_site_id) REFERENCES t_spot(id),
+    FOREIGN KEY (fk_landing_site_id) REFERENCES t_spot(id)
 );
 
 CREATE TABLE t_session_token
