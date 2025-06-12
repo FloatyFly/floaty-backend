@@ -8,9 +8,8 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public interface IFlightRepository extends CrudRepository<Flight, String> {
+public interface IFlightRepository extends CrudRepository<Flight, Long> {
 
     List<Flight> findByUser(User user);
-
 
 }

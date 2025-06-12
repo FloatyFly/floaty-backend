@@ -48,17 +48,17 @@ public class AuthenticationController {
     public ResponseEntity<UserDto> login(@RequestBody LoginRequestDto loginRequestDto, HttpServletResponse response) {
         SessionToken sessionToken;
         try {
-            sessionToken = authenticationService.login(loginRequestDto.getName(), loginRequestDto.getPassword());
+            sessionToken = authenticationService.login(loginRequestDto.getUsername(), loginRequestDto.getPassword());
         } catch (UserNotFoundException | WrongPasswordException exception) {
-            log.info("Login attempt failed for '{}'. Reason: {} {}", loginRequestDto.getName(), exception.getClass().getName(), exception.getMessage());
+            log.info("Login attempt failed for '{}'. Reason: {} {}", loginRequestDto.getUsername(), exception.getClass().getName(), exception.getMessage());
             return ResponseEntity.status(UNAUTHORIZED).body(null);
         }
         Cookie cookie = new Cookie("sessionToken", sessionToken.getToken());
         cookie.setHttpOnly(true);
         cookie.setPath("/");  // all endpoints shall return new session cookie
         response.addCookie(cookie);
-        UserDto responseUserDto = modelMapper.map(this.userRepository.findByName(loginRequestDto.getName()), UserDto.class);
-        log.info("User '{}' logged in successfully.", loginRequestDto.getName());
+        UserDto responseUserDto = modelMapper.map(this.userRepository.findByName(loginRequestDto.getUsername()), UserDto.class);
+        log.info("User '{}' logged in successfully.", loginRequestDto.getUsername());
         return ResponseEntity.ok().body(responseUserDto);
     }
 

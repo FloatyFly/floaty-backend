@@ -6,7 +6,7 @@ import ch.floaty.domain.repository.IFlightRepository;
 import ch.floaty.domain.repository.IUserRepository;
 import ch.floaty.domain.service.IGliderApplicationService;
 import ch.floaty.domain.service.ISpotApplicationService;
-import ch.floaty.generated.FlightDto;
+import ch.floaty.generated.*;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import org.springframework.dao.EmptyResultDataAccessException;
@@ -20,7 +20,6 @@ import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
 import java.util.List;
-import java.util.UUID;
 
 import static java.util.stream.Collectors.toList;
 
@@ -46,13 +45,13 @@ public class FlightController {
     }
 
     @PostMapping("/flights")
-    public ResponseEntity<?> createFlight(@Validated @RequestBody FlightDto flightDto) {
+    public ResponseEntity<?> createFlight(@Validated @RequestBody FlightCreateDto flightCreateDto) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         User user = (User) authentication.getPrincipal();
 
         // Launch and landing sites validation
-        Spot launchSite = spotApplicationService.findSpotById(flightDto.getLaunchSpotId());
-        Spot landingSite = spotApplicationService.findSpotById(flightDto.getLandingSpotId());
+        Spot launchSite = spotApplicationService.findSpotById(flightCreateDto.getLaunchSpotId());
+        Spot landingSite = spotApplicationService.findSpotById(flightCreateDto.getLandingSpotId());
         if (launchSite == null || landingSite == null) {
             return ResponseEntity.badRequest().body("Launch or landing site not found");
         }
@@ -61,7 +60,7 @@ public class FlightController {
         }
 
         // Glider validation
-        Glider glider = gliderApplicationService.findGliderById(flightDto.getGliderId());
+        Glider glider = gliderApplicationService.findGliderById(flightCreateDto.getGliderId());
         if (glider == null) {
             return ResponseEntity.badRequest().build();
         }
@@ -71,12 +70,22 @@ public class FlightController {
 
         // Flight creation
         FlightParameters flightParameters = new FlightParameters(
-                flightDto.getDateTime().toInstant(),
-                flightDto.getDuration(),
-                flightDto.getDescription(),
+                flightCreateDto.getDateTime().toInstant(),
+                flightCreateDto.getDuration(),
+                flightCreateDto.getDescription(),
                 launchSite,
-                landingSite);
-        Flight flight = this.flightApplicationService.createFlight(user, flightParameters);
+                landingSite,
+                glider);
+
+        IgcDataCreate igcDataCreate = null;
+        if (flightCreateDto.getIgcDataCreate() != null) {
+            FlightCreateIgcDataCreateDto igcDataCreateDto = flightCreateDto.getIgcDataCreate();
+            igcDataCreate = new IgcDataCreate(
+                    igcDataCreateDto.getFileName(),
+                    igcDataCreateDto.getFile());
+        }
+
+        Flight flight = this.flightApplicationService.createFlight(user, flightParameters, igcDataCreate);
 
         FlightDto responseFlightDto = modelMapper.map(flight, FlightDto.class);
         URI location = URI.create("/flights/" + responseFlightDto.getFlightId());
@@ -86,25 +95,22 @@ public class FlightController {
     }
 
     @PutMapping("/flights/{flightId}")
-    public ResponseEntity<FlightDto> updateFlight(@PathVariable String flightId, @Validated @RequestBody FlightDto flightDto) {
-        UUID flightUUID;
-        try {
-            flightUUID = UUID.fromString(flightId);
-        } catch (IllegalArgumentException e) {
-            return ResponseEntity.badRequest().build();
-        }
-        Flight flight = flightRepository.findById(flightUUID.toString()).orElse(null);
+    @PreAuthorize("isAuthenticated()")
+    public ResponseEntity<FlightDto> updateFlight(@PathVariable Long flightId, @Validated @RequestBody FlightUpdateDto flightUpdateDto) {
+        Flight flight = flightRepository.findById(flightId).orElse(null);
         if (flight == null) {
             return ResponseEntity.notFound().build();
         }
+        assert flightUpdateDto.getDateTime() != null;
         FlightParameters flightParameters = new FlightParameters(
-                flightDto.getDateTime().toInstant(),
-                flightDto.getDuration(),
-                flightDto.getDescription(),
-                spotApplicationService.findSpotById(flightDto.getLaunchSpotId()),
-                spotApplicationService.findSpotById(flightDto.getLandingSpotId())
+                flightUpdateDto.getDateTime().toInstant(),
+                flightUpdateDto.getDuration(),
+                flightUpdateDto.getDescription(),
+                spotApplicationService.findSpotById(flightUpdateDto.getLaunchSpotId()),
+                spotApplicationService.findSpotById(flightUpdateDto.getLandingSpotId()),
+                gliderApplicationService.findGliderById(flightUpdateDto.getGliderId())
         );
-        Flight updatedFlight = flightApplicationService.updateFlight(flightUUID, flightParameters);
+        Flight updatedFlight = flightApplicationService.updateFlight(flightId, flightParameters);
         FlightDto responseFlightDto = modelMapper.map(updatedFlight, FlightDto.class);
         log.info("Updated flight: ID={}, Date={}, Launch={}",
                 responseFlightDto.getFlightId(), responseFlightDto.getDateTime(), responseFlightDto.getLaunchSpotId());
@@ -119,20 +125,54 @@ public class FlightController {
                 .stream().map(flight -> modelMapper.map(flight, FlightDto.class)).collect(toList());
     }
 
-    @DeleteMapping("/flights/{flightId}")
-    public ResponseEntity<Void> deleteFlightById(@PathVariable String flightId) {
-        UUID flightUUID;
-        try {
-            flightUUID = UUID.fromString(flightId);
-        } catch (IllegalArgumentException e) {
-            return ResponseEntity.badRequest().build();
+    @GetMapping("/flights/{flightId}")
+    @PreAuthorize("isAuthenticated()")
+    public ResponseEntity<FlightDto> findFlightById(@PathVariable Long flightId) {
+        Flight flight = flightApplicationService.findFlightById(flightId);
+        if (flight == null) {
+            return ResponseEntity.notFound().build();
         }
+        FlightDto flightDto = modelMapper.map(flight, FlightDto.class);
+        log.info("Retrieved flight: ID={}, Date={}", flightDto.getFlightId(), flightDto.getDateTime());
+        return ResponseEntity.ok(flightDto);
+    }
+
+    @DeleteMapping("/flights/{flightId}")
+    public ResponseEntity<Void> deleteFlightById(@PathVariable Long flightId) {
         try {
-            flightApplicationService.deleteFlight(flightUUID);
+            flightApplicationService.deleteFlight(flightId);
         } catch (EmptyResultDataAccessException e) {
             return ResponseEntity.notFound().build();
         }
         log.info("Deleted flight: ID={}", flightId);
         return ResponseEntity.noContent().build();
     }
+
+    @GetMapping("/flights/{flightId}/igc")
+    @PreAuthorize("isAuthenticated()")
+    public ResponseEntity<IgcDataDto> getIgcData(@PathVariable Long flightId) {
+        Flight flight = flightApplicationService.findFlightById(flightId);
+        if (flight == null || flight.getIgcData() == null) {
+            return ResponseEntity.notFound().build();
+        }
+        IgcDataDto igcDataDto = modelMapper.map(flight.getIgcData(), IgcDataDto.class);
+        log.info("Retrieved IGC data for flight: ID={}", flightId);
+        return ResponseEntity.ok(igcDataDto);
+    }
+
+    @GetMapping("/flights/{flightId}/track")
+    @PreAuthorize("isAuthenticated()")
+    public ResponseEntity<FlightTrackDto> getFlightTrack(@PathVariable Long flightId) {
+        Flight flight = flightApplicationService.findFlightById(flightId);
+        if (flight == null || flight.getIgcData() == null) {
+            return ResponseEntity.notFound().build();
+        }
+        FlightTrack flightTrack = flightApplicationService.getFlightTrack(flightId);
+        FlightTrackDto flightTrackDto = modelMapper.map(flightTrack, FlightTrackDto.class);
+        log.info("Retrieved flight track for flight: ID={}", flightId);
+        return ResponseEntity.ok(flightTrackDto);
+    }
+
+
+
 }

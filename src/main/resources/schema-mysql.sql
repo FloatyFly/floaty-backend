@@ -1,9 +1,10 @@
 -- Drop existing tables if they exist
-DROP TABLE IF EXISTS t_glider;
 DROP TABLE IF EXISTS t_email_verification_token;
 DROP TABLE IF EXISTS t_password_reset_token;
 DROP TABLE IF EXISTS t_session_token;
 DROP TABLE IF EXISTS t_flight;
+DROP TABLE IF EXISTS t_igc_data;
+DROP TABLE IF EXISTS t_glider;
 DROP TABLE IF EXISTS t_spot;
 DROP TABLE IF EXISTS t_user;
 DROP TABLE IF EXISTS user_seq;
@@ -55,23 +56,38 @@ CREATE TABLE t_glider
     id                  BIGINT          NOT NULL,
     fk_user_id          BIGINT          NOT NULL,
     manufacturer        VARCHAR(128)    NOT NULL,
-    model               VARCHAR(128)    NOT NULL
+    model               VARCHAR(128)    NOT NULL,
+    PRIMARY KEY (id)
+);
+
+CREATE TABLE t_igc_data
+(
+    id                  BIGINT          NOT NULL,
+    uploaded_at         TIMESTAMP       NOT NULL,
+    file_name           VARCHAR(128)    NOT NULL,
+    file_size           BIGINT          NOT NULL,
+    checksum            VARCHAR(64)     NOT NULL,
+    data                LONGBLOB        NOT NULL,
+    PRIMARY KEY (id)
 );
 
 CREATE TABLE t_flight
 (
-    id                  VARCHAR(64)     NOT NULL,
-    user_id             BIGINT          NOT NULL,
+    id                  BIGINT          NOT NULL,
     date_time           TIMESTAMP       NOT NULL,
-    take_off            VARCHAR(128)    NOT NULL,
     duration            BIGINT          NOT NULL,
     description         VARCHAR(4096)   NOT NULL,
+    fk_user_id          BIGINT          NOT NULL,
     fk_launch_site_id   BIGINT          NOT NULL,
     fk_landing_site_id  BIGINT          NOT NULL,
+    fk_glider_id        BIGINT          NOT NULL,
+    fk_igc_data_id      BIGINT          DEFAULT NULL,
     PRIMARY KEY (id),
-    FOREIGN KEY (user_id) REFERENCES t_user(id) ON DELETE CASCADE,
+    FOREIGN KEY (fk_user_id) REFERENCES t_user(id) ON DELETE CASCADE,
     FOREIGN KEY (fk_launch_site_id) REFERENCES t_spot(id),
-    FOREIGN KEY (fk_landing_site_id) REFERENCES t_spot(id)
+    FOREIGN KEY (fk_landing_site_id) REFERENCES t_spot(id),
+    FOREIGN KEY (fk_glider_id) REFERENCES t_glider(id),
+    FOREIGN KEY (fk_igc_data_id) REFERENCES t_igc_data(id) ON DELETE SET NULL
 );
 
 CREATE TABLE t_session_token

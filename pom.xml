@@ -124,13 +124,18 @@
 		<dependency>
 			<groupId>org.openapitools</groupId>
 			<artifactId>openapi-generator</artifactId>
-			<version>7.0.1</version>
+			<version>7.13.0</version>
 			<exclusions>
 				<exclusion>
 					<groupId>org.slf4j</groupId>
 					<artifactId>slf4j-simple</artifactId>
 				</exclusion>
 			</exclusions>
+		</dependency>
+		<dependency>
+			<groupId>org.openapitools</groupId>
+			<artifactId>jackson-databind-nullable</artifactId>
+			<version>0.2.6</version>
 		</dependency>
 		<dependency>
 			<groupId>org.slf4j</groupId>
@@ -176,6 +181,9 @@
 							<generateApis>false</generateApis>
 							<generateApiTests>false</generateApiTests>
 							<generateSupportingFiles>true</generateSupportingFiles>
+							<typeMappings>
+								<typeMapping>File=byte[]</typeMapping>
+							</typeMappings>
 						</configuration>
 					</execution>
 				</executions>
