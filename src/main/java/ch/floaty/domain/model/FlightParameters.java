@@ -30,4 +30,8 @@ public class FlightParameters {
     @ManyToOne
     @JoinColumn(name = "fk_landing_site_id")
     private Spot landingSite;
+
+    @ManyToOne
+    @JoinColumn(name = "fk_glider_id")
+    private Glider glider;
 }

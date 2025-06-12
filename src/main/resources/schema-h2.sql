@@ -34,13 +34,14 @@ CREATE TABLE t_glider
     id                  BIGINT          NOT NULL,
     fk_user_id          BIGINT          NOT NULL,
     manufacturer        VARCHAR(128)    NOT NULL,
-    model               VARCHAR(128)    NOT NULL
+    model               VARCHAR(128)    NOT NULL,
+    PRIMARY KEY (id)
 );
 
 
 CREATE TABLE t_flight
 (
-    id                  VARCHAR(64)     NOT NULL,
+    id                  BIGINT          NOT NULL,
     user_id             BIGINT          NOT NULL,
     date_time           TIMESTAMP       NOT NULL,
     take_off            VARCHAR(128)    NOT NULL,
@@ -48,10 +49,12 @@ CREATE TABLE t_flight
     description         VARCHAR(4096)   NOT NULL,
     fk_launch_site_id   BIGINT          NOT NULL,
     fk_landing_site_id  BIGINT          NOT NULL,
+    fk_glider_id  BIGINT          NOT NULL,
     PRIMARY KEY (id),
     FOREIGN KEY (user_id) REFERENCES t_user(id) ON DELETE CASCADE,
     FOREIGN KEY (fk_launch_site_id) REFERENCES t_spot(id),
-    FOREIGN KEY (fk_landing_site_id) REFERENCES t_spot(id)
+    FOREIGN KEY (fk_landing_site_id) REFERENCES t_spot(id),
+    FOREIGN KEY (fk_glider_id) REFERENCES t_glider(id)
 );
 
 CREATE TABLE t_session_token

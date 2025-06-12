@@ -91,13 +91,13 @@ public class AuthenticationControllerTest {
     public void testLogin_Success() throws Exception {
         // Arrange
         LoginRequestDto loginRequestDto = new LoginRequestDto();
-        loginRequestDto.setName("testuser");
+        loginRequestDto.setUsername("testuser");
         loginRequestDto.setPassword("password");
         SessionToken sessionToken = new SessionToken(null);
         sessionToken.setToken("token123");
-        when(authenticationService.login(loginRequestDto.getName(), loginRequestDto.getPassword()))
+        when(authenticationService.login(loginRequestDto.getUsername(), loginRequestDto.getPassword()))
                 .thenReturn(sessionToken);
-        when(userRepository.findByName(loginRequestDto.getName()))
+        when(userRepository.findByName(loginRequestDto.getUsername()))
                 .thenReturn(this.newUser);
         when(modelMapper.map(this.newUser, UserDto.class))
                 .thenReturn(this.userDto);
@@ -115,7 +115,7 @@ public class AuthenticationControllerTest {
     public void testLogin_UserNotFound() throws Exception {
         // Arrange
         LoginRequestDto loginRequestDto = new LoginRequestDto();
-        loginRequestDto.setName("wronguser");
+        loginRequestDto.setUsername("wronguser");
         loginRequestDto.setPassword("password");
         when(authenticationService.login(anyString(), anyString()))
                 .thenThrow(new UserNotFoundException());
@@ -131,7 +131,7 @@ public class AuthenticationControllerTest {
     public void testLogin_WrongPassword() throws Exception {
         // Arrange
         LoginRequestDto loginRequestDto = new LoginRequestDto();
-        loginRequestDto.setName("testuser");
+        loginRequestDto.setUsername("testuser");
         loginRequestDto.setPassword("wrongpassword");
         when(authenticationService.login(anyString(), anyString()))
                 .thenThrow(new WrongPasswordException());
