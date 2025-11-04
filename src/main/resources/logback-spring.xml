@@ -29,6 +29,10 @@
                     class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
                 <maxFileSize>10MB</maxFileSize>
             </timeBasedFileNamingAndTriggeringPolicy>
+            <!-- Keep 30 days of archived logs, delete older -->
+            <maxHistory>30</maxHistory>
+            <!-- Cap total archived logs size at 100MB -->
+            <totalSizeCap>100MB</totalSizeCap>
         </rollingPolicy>
     </appender>
 
