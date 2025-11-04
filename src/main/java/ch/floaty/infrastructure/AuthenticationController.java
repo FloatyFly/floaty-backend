@@ -14,6 +14,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.Cookie;
@@ -87,5 +88,13 @@ public class AuthenticationController {
     public ResponseEntity<String> logout(@PathVariable Long userId) {
         authenticationService.logout(userId);
         return ResponseEntity.ok("Logout successful.");
+    }
+
+    @GetMapping("/auth/me")
+    @PreAuthorize("isAuthenticated()")
+    public ResponseEntity<UserDto> getCurrentUser(Authentication authentication) {
+        User user = (User) authentication.getPrincipal();
+        UserDto userDto = modelMapper.map(user, UserDto.class);
+        return ResponseEntity.ok(userDto);
     }
 }
