@@ -60,7 +60,7 @@ public class AuthenticationControllerTest {
         newUser.setEmail("test@example.com");
 
         userDto = new UserDto();
-        userDto.setId("100");
+        userDto.setId(100L);
         userDto.setName("testuser");
     }
 
