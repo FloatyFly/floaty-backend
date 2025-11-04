@@ -4,3 +4,5 @@ terraform/.terraform
 **.lock.hcl
 .DS_Store
 *.env
+logs
+scripts/backups
