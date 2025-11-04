@@ -100,13 +100,20 @@ public class FlightMappingConfig {
             protected void configure() {
                 map(source.getTotalPoints(), destination.getTotalPoints());
                 map(source.getDurationSeconds(), destination.getDuration());
-                map(source.getDistanceMeters(), destination.getDistance());
+                // Convert meters to kilometers
+                using(ctx -> ((Double) ctx.getSource()) / 1000.0)
+                    .map(source.getDistanceMeters(), destination.getDistance());
                 map(source.getMaxAltitudeMeters(), destination.getMaxAltitude());
                 map(source.getMinAltitudeMeters(), destination.getMinAltitude());
-                map(source.getMaxSpeedMetersPerSecond(), destination.getMaxSpeed());
+                // Convert m/s to km/h (multiply by 3.6)
+                using(ctx -> ((Double) ctx.getSource()) * 3.6)
+                    .map(source.getMaxSpeedMetersPerSecond(), destination.getMaxSpeed());
+                // Climb/sink rates stay in m/s (as per API spec)
                 map(source.getMaxClimbRateMetersPerSecond(), destination.getMaxClimbRate());
                 map(source.getMaxSinkRateMetersPerSecond(), destination.getMaxSinkRate());
-                map(source.getAverageSpeedMetersPerSecond(), destination.getAverageSpeed());
+                // Convert m/s to km/h (multiply by 3.6)
+                using(ctx -> ((Double) ctx.getSource()) * 3.6)
+                    .map(source.getAverageSpeedMetersPerSecond(), destination.getAverageSpeed());
             }
         });
 

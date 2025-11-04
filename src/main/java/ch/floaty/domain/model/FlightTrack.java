@@ -1,8 +1,11 @@
 package ch.floaty.domain.model;
 
+import ch.floaty.domain.util.TrackSimplifier;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 import java.time.OffsetDateTime;
@@ -18,6 +21,8 @@ import static java.nio.charset.StandardCharsets.UTF_8;
 @NoArgsConstructor
 @Component
 public class FlightTrack {
+    private static final Logger logger = LoggerFactory.getLogger(FlightTrack.class);
+
     private Long flightId;
     private List<TrackPoint> trackPoints;
     private TrackStatistics trackStatistics;
@@ -33,9 +38,26 @@ public class FlightTrack {
             IgcParser parser = new IgcParser();
             ParsedIgcData parsedData = parser.parseIgc(igcContent);
 
-            this.trackPoints = parsedData.getTrackPoints();
+            List<TrackPoint> originalPoints = parsedData.getTrackPoints();
+            int originalCount = originalPoints.size();
+
+            logger.info("Parsed IGC file for flight {}: {} original points", flightId, originalCount);
+
+            // Calculate statistics on ORIGINAL points (before simplification) for accuracy
+            this.trackStatistics = calculateStatistics(originalPoints);
+
+            // Apply Douglas-Peucker simplification to reduce point count for rendering
+            double epsilon = TrackSimplifier.getRecommendedEpsilon(originalCount);
+            this.trackPoints = TrackSimplifier.simplify(originalPoints, epsilon);
+
+            int simplifiedCount = this.trackPoints.size();
+            double reductionPct = TrackSimplifier.getReductionPercentage(originalCount, simplifiedCount);
+
+            logger.info("Simplified track for flight {}: {} -> {} points ({}% reduction, epsilon={}m)",
+                    flightId, originalCount, simplifiedCount, String.format("%.1f", reductionPct), epsilon);
+
+            // Calculate bounding box on simplified track (for map display)
             this.trackBoundingBox = calculateBoundingBox(trackPoints);
-            this.trackStatistics = calculateStatistics(trackPoints);
         } catch (Exception e) {
             throw new RuntimeException("Failed to parse IGC data", e);
         }
