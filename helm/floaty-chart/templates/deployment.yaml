@@ -3,7 +3,7 @@ kind: Deployment
 metadata:
   name: floaty-backend
 spec:
-  replicas: 1
+  replicas: {{ .Values.replicas }}
   revisionHistoryLimit: 3
   selector:
     matchLabels:
@@ -13,8 +13,29 @@ spec:
       labels:
         app: floaty-backend
     spec:
+      affinity:
+        podAntiAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+          - labelSelector:
+              matchExpressions:
+              - key: app
+                operator: In
+                values:
+                - floaty-backend
+            topologyKey: kubernetes.io/hostname
       containers:
-        - image: matthaeusheer/floaty-backend:latest
+        - image: {{ .Values.image.repository }}:{{ .Values.image.tag }}
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
           name: floaty-backend
           ports:
             - containerPort: 8080
+          env:
+            - name: SPRING_DATASOURCE_URL
+              value: jdbc:mysql://mysql:3306/floatydb
+            - name: SPRING_DATASOURCE_USERNAME
+              value: floaty
+            - name: SPRING_DATASOURCE_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: mysql-secret
+                  key: password

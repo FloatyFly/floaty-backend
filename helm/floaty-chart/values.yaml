@@ -1,0 +1,6 @@
+image:
+  repository: matthaeusheer/floaty-backend
+  tag: latest
+  pullPolicy: Always
+
+replicas: 2
