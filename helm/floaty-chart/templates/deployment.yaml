@@ -30,12 +30,18 @@ spec:
           ports:
             - containerPort: 8080
           env:
-            - name: SPRING_DATASOURCE_URL
-              value: jdbc:mysql://mysql:3306/floatydb
-            - name: SPRING_DATASOURCE_USERNAME
+            - name: SPRING_PROFILES_ACTIVE
+              value: prod
+            - name: MYSQL_USER
               value: floaty
-            - name: SPRING_DATASOURCE_PASSWORD
+            - name: MYSQL_PASSWORD
               valueFrom:
                 secretKeyRef:
                   name: mysql-secret
                   key: password
+            - name: SENDGRID_API_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: mysql-secret
+                  key: sendgrid-api-key
+                  optional: true
