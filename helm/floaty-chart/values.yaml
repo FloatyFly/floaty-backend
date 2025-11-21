@@ -3,4 +3,4 @@ image:
   tag: latest
   pullPolicy: Always
 
-replicas: 2
+replicas: 1
