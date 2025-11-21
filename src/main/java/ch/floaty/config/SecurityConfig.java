@@ -14,6 +14,8 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.cors.CorsConfiguration;
+
+import javax.servlet.http.HttpServletResponse;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
@@ -33,13 +35,13 @@ public class SecurityConfig {
     public SecurityFilterChain filterChain(HttpSecurity http, SessionTokenFilter sessionTokenFilter) throws Exception {
         http
                 .cors().configurationSource(corsConfigurationSource()).and()
+                .addFilterBefore(sessionTokenFilter, UsernamePasswordAuthenticationFilter.class)
                 .authorizeHttpRequests(authorizeRequests ->
                         authorizeRequests
                                 .antMatchers("/auth/logout").authenticated()
                                 .antMatchers("/auth/**").permitAll()
                                 .anyRequest().authenticated()
                 )
-                .addFilterBefore(sessionTokenFilter, UsernamePasswordAuthenticationFilter.class)
                 .csrf().disable();
 
         return http.build();

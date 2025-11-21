@@ -55,6 +55,7 @@ public class GliderController {
     @PreAuthorize("isAuthenticated()")
     public List<GliderDto> getAllGliders(Authentication authentication) {
         User user = (User) authentication.getPrincipal();
+        log.info("Getting gliders for user {}", user.getUsername());
         return gliderApplicationService.findGlidersByUser(user)
                 .stream()
                 .map(glider -> modelMapper.map(glider, GliderDto.class))

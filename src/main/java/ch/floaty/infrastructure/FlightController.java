@@ -121,6 +121,7 @@ public class FlightController {
     @PreAuthorize("isAuthenticated()")
     public List<FlightDto> findFlights(Authentication authentication) {
         User user = (User) authentication.getPrincipal();
+        log.info("Get flights for user {}", user.getUsername());
         return flightApplicationService.findFlights(user)
                 .stream().map(flight -> modelMapper.map(flight, FlightDto.class)).collect(toList());
     }

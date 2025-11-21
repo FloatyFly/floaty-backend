@@ -83,10 +83,20 @@ public class AuthenticationController {
         return ResponseEntity.ok("Password reset successful.");
     }
 
-    @PostMapping("/auth/logout/{userId}")
-    @PreAuthorize("@userSecurity.hasUserIdOrAdmin(#userId)")
-    public ResponseEntity<String> logout(@PathVariable Long userId) {
-        authenticationService.logout(userId);
+    @PostMapping("/auth/logout")
+    @PreAuthorize("isAuthenticated()")
+    public ResponseEntity<String> logout(Authentication authentication, HttpServletResponse response) {
+        User user = (User) authentication.getPrincipal();
+        authenticationService.logout(user.getId());
+
+        // Clear the session cookie
+        Cookie cookie = new Cookie("sessionToken", null);
+        cookie.setHttpOnly(true);
+        cookie.setPath("/");
+        cookie.setMaxAge(0); // Delete the cookie
+        response.addCookie(cookie);
+
+        log.info("User '{}' logged out successfully.", user.getName());
         return ResponseEntity.ok("Logout successful.");
     }
 
@@ -95,6 +105,7 @@ public class AuthenticationController {
     public ResponseEntity<UserDto> getCurrentUser(Authentication authentication) {
         User user = (User) authentication.getPrincipal();
         UserDto userDto = modelMapper.map(user, UserDto.class);
+        log.info("Get current user '{}'.", user.getName());
         return ResponseEntity.ok(userDto);
     }
 }

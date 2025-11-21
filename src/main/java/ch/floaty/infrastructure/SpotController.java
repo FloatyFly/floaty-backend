@@ -69,6 +69,7 @@ public class SpotController {
     @PreAuthorize("isAuthenticated()")
     public List<SpotDto> getAllSpots(Authentication authentication) {
         User user = (User) authentication.getPrincipal();
+        log.info("Get spots for user {}", user.getUsername());
         return spotApplicationService.findSpotsByUser(user)
                 .stream()
                 .map(spot -> modelMapper.map(spot, SpotDto.class))
