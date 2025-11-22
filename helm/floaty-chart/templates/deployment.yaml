@@ -31,7 +31,7 @@ spec:
             - containerPort: 8080
           env:
             - name: SPRING_PROFILES_ACTIVE
-              value: prod
+              value: dev-mysql
             - name: MYSQL_USER
               value: floaty
             - name: MYSQL_PASSWORD
