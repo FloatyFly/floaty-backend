@@ -11,6 +11,8 @@ spec:
         kubevirt.io/vm: testvm
     spec:
       domain:
+        cpu:
+          model: cortex-a57
         devices:
           disks:
           - name: containerdisk
