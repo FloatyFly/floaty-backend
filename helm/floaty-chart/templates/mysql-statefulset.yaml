@@ -23,9 +23,9 @@ spec:
               name: mysql-secret
               key: root-password
         - name: MYSQL_DATABASE
-          value: floatydb
+          value: floaty-db
         - name: MYSQL_USER
-          value: floaty
+          value: floaty-user
         - name: MYSQL_PASSWORD
           valueFrom:
             secretKeyRef:
