@@ -4,6 +4,7 @@ metadata:
   name: floaty-backend
 spec:
   entryPoints:
+    - web
     - websecure
   routes:
     - kind: Rule
