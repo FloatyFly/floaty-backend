@@ -4,7 +4,8 @@ metadata:
   name: svc-floaty-backend
 spec:
   ports:
-    - port: 80
+    - name: http
+      port: 80
       targetPort: 8080
   selector:
     app: floaty-backend
