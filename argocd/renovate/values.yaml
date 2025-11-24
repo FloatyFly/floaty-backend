@@ -12,7 +12,22 @@ renovate:
       "endpoint": "https://api.github.com/",
       "repositories": ["FloatyFly/floaty-backend"],
       "onboarding": true,
-      "requireConfig": "optional"
+      "requireConfig": "optional",
+      "enabledManagers": ["maven"],
+      "packageRules": [
+        {
+          "matchManagers": ["maven"],
+          "matchUpdateTypes": ["patch", "minor"],
+          "groupName": "Maven non-major updates",
+          "groupSlug": "maven-non-major"
+        },
+        {
+          "matchManagers": ["maven"],
+          "matchUpdateTypes": ["major"],
+          "groupName": "Maven major updates",
+          "groupSlug": "maven-major"
+        }
+      ]
     }
 
 envFrom:
