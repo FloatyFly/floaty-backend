@@ -10,7 +10,7 @@ renovate:
     {
       "platform": "github",
       "endpoint": "https://api.github.com/",
-      "autodiscover": true,
+      "repositories": ["FloatyFly/floaty-backend"],
       "onboarding": true,
       "requireConfig": "optional"
     }
