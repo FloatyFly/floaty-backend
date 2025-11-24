@@ -10,6 +10,6 @@ spec:
     matchLabels:
       app: floaty-backend
   endpoints:
-  - port: http
+  - port: management
     path: /actuator/prometheus
     interval: 30s
