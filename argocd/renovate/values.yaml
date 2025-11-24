@@ -1,0 +1,34 @@
+cronjob:
+  schedule: '@daily'
+  concurrencyPolicy: Forbid
+
+image:
+  tag: '38'
+
+renovate:
+  config: |
+    {
+      "platform": "github",
+      "endpoint": "https://api.github.com/",
+      "autodiscover": true,
+      "onboarding": true,
+      "requireConfig": "optional"
+    }
+
+pod:
+  resources:
+    requests:
+      cpu: 50m
+      memory: 256Mi
+    limits:
+      cpu: 500m
+      memory: 512Mi
+
+  envFrom:
+    - secretRef:
+        name: renovate-env
+
+persistence:
+  cache:
+    enabled: true
+    storageSize: 2Gi
