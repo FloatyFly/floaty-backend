@@ -2,6 +2,8 @@ apiVersion: v1
 kind: Service
 metadata:
   name: svc-floaty-backend
+  labels:
+    app: floaty-backend
 spec:
   ports:
     - name: http
