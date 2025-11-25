@@ -1,0 +1,13 @@
+---
+apiVersion: bitnami.com/v1alpha1
+kind: SealedSecret
+metadata:
+  name: grafana-smtp
+  namespace: monitoring
+spec:
+  encryptedData:
+    password: AgDHp1hnxDNgLCvNS68S0WrkKsOkrQjaxWZ2qtLVUm5e1R/4Oh6xZt6Fsm0GNyAT7LriyrjZeYVhxrypj8C1k8mwIylqJQdfZqBOHqn6kA98CHzmmoOOkYTh5c/metlLof02BLqgmlU5dYnCR+2o+njSsRfrG8uRDUYebH1OeZrx6NomazjxrfbkX+i6ZvHlZyTmyFv2fm+zZ65s7cA/vsgABpNqU5BtXigIPy6WK4NdKLYuAF8Q3DSx/r3juYWGXJhjH2zHxB5TUjzaeGq2lOqdJAQQjmc1yvxvd0zYXaD4+NBtx6T4oHKlEj9vDgE1OE2HHiimIFh01FgQFi5zUaZVoq9eqEFg10pK5RK+PpkmsIyeZSzBDn0S1TbXlAPEtJAizKFdGcl4i+nGlO5sCzoO2d19WAAZwO2uoQ0Yh9IvRWJGFBlfnFgIrzmeSCyDag0xGKot4ZFqa7B0Jp52LzDCb25Pll6QnBSWudScwGsFMtbz3TAABhNMEfgvBz8irE96gzaGo6jolGdjuLFbsYfdrmAWF9Hqzjsktxxp9WH3Fj4+T37eyx5AXsiocpC68pY34kuzLkZ6lZF6niZc3GZEtC4TYecK15f41/jTjxrH6yJ0SssI0eXew0WYi/RK/jN4vlBrBqppkHyjyuITomn8an4V4p9Ad9nOpoPeVsS4JEKnjKpwAySUahqdZA/g7zercpiApc3cC7/9WJ/zX9Wa1CtOhA==
+  template:
+    metadata:
+      name: grafana-smtp
+      namespace: monitoring
