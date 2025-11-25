@@ -5,6 +5,7 @@ metadata:
   namespace: floaty
   labels:
     app: floaty-backend
+    release: prometheus
 spec:
   selector:
     matchLabels:
