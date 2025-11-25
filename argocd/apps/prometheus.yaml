@@ -44,16 +44,18 @@ spec:
             limits:
               memory: 256Mi
               cpu: 200m
-          envFromSecret: grafana-smtp
-          grafana.ini:
-            smtp:
-              enabled: true
-              host: smtp-mail.outlook.com:587
-              user: info@floatyfly.com
-              password: $__env{password}
-              from_address: info@floatyfly.com
-              from_name: Floaty Alerts
-              startTLS_policy: MandatoryStartTLS
+          env:
+            GF_SMTP_ENABLED: "true"
+            GF_SMTP_HOST: "smtp-mail.outlook.com:587"
+            GF_SMTP_USER: "info@floatyfly.com"
+            GF_SMTP_FROM_ADDRESS: "info@floatyfly.com"
+            GF_SMTP_FROM_NAME: "Floaty Alerts"
+            GF_SMTP_STARTTLS_POLICY: "MandatoryStartTLS"
+          envValueFrom:
+            GF_SMTP_PASSWORD:
+              secretKeyRef:
+                name: grafana-smtp
+                key: password
 
         # Disable components we don't need on a small cluster
         kubeStateMetrics:
