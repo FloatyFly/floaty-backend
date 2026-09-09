@@ -172,20 +172,20 @@ INSERT INTO t_spot (id, name, fk_user_id, latitude, longitude, altitude, descrip
 VALUES (50, 'Zurich Kloten', 1, 47.4647, 8.5492, 432, 'Metropolitan landing near international airport.', FALSE, TRUE);
 
 -- Insert 5 gliders
-INSERT INTO t_glider (id, fk_user_id, manufacturer, model)
-VALUES (51, 1, 'Skywalk', 'Cumeo2 (95)');
+INSERT INTO t_glider (id, fk_user_id, manufacturer, model, size_label, certification_class, gradation)
+VALUES (51, 1, 'Skywalk', 'Cumeo2', '95', 'B', 'LOW');
 
-INSERT INTO t_glider (id, fk_user_id, manufacturer, model)
-VALUES (52, 1, 'Advance', 'Iota (24)');
+INSERT INTO t_glider (id, fk_user_id, manufacturer, model, size_label, certification_class, gradation)
+VALUES (52, 1, 'Advance', 'Iota', '24', 'B', 'HIGH');
 
-INSERT INTO t_glider (id, fk_user_id, manufacturer, model)
-VALUES (53, 1, 'Ozone', 'Rush 5 (29)');
+INSERT INTO t_glider (id, fk_user_id, manufacturer, model, size_label, certification_class, gradation)
+VALUES (53, 1, 'Ozone', 'Rush 5', '29', NULL, NULL);
 
-INSERT INTO t_glider (id, fk_user_id, manufacturer, model)
-VALUES (54, 1, 'Nova', 'Phantom (27)');
+INSERT INTO t_glider (id, fk_user_id, manufacturer, model, size_label, certification_class, gradation)
+VALUES (54, 1, 'Nova', 'Phantom', '27', 'C', NULL);
 
-INSERT INTO t_glider (id, fk_user_id, manufacturer, model)
-VALUES (55, 1, 'Gin', 'Atlas 2 (26)');
+INSERT INTO t_glider (id, fk_user_id, manufacturer, model, size_label, certification_class, gradation)
+VALUES (55, 1, 'Gin', 'Atlas 2', '26', 'B', 'LOW');
 
 -- Insert 100 flights with seasonal variations across all regions
 INSERT INTO t_flight (id, date_time, duration, description, fk_user_id, fk_launch_site_id, fk_landing_site_id, fk_glider_id)

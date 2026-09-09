@@ -35,6 +35,9 @@ CREATE TABLE t_glider
     fk_user_id          BIGINT          NOT NULL,
     manufacturer        VARCHAR(128)    NOT NULL,
     model               VARCHAR(128)    NOT NULL,
+    size_label          VARCHAR(64)     DEFAULT NULL,
+    certification_class VARCHAR(16)     DEFAULT NULL,
+    gradation           VARCHAR(16)     DEFAULT NULL,
     PRIMARY KEY (id)
 );
 
