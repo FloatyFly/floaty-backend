@@ -32,7 +32,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @SpringBootTest(classes = FloatyApplication.class)
 @AutoConfigureMockMvc
-@ActiveProfiles("dev-h2")
+// Mocks its service and repository, so it needs a context but no database or seed data.
+@ActiveProfiles("test")
 public class AuthenticationControllerTest {
 
     @Autowired
