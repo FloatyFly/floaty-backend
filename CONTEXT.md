@@ -43,3 +43,23 @@ both.
 
 **Track**:
 The recorded GPS path of a flight, uploaded as an IGC file.
+
+**Session**:
+A pilot's authenticated period of use, represented by a `SessionToken` carried in the
+`sessionToken` cookie. Sliding expiry: every authenticated request renews it. Distinct from
+the other `TimedToken`s (email verification, password reset), which are single-purpose and
+consumed once.
+_Avoid_: login, JWT (there is none).
+
+**Ownership**:
+The rule that a Pilot may only read or change their own Flights, Gliders and Spots.
+Separate from *authentication* (proving who you are) and from *authorisation* in the
+role sense (`ADMIN`): an endpoint can require a logged-in pilot and still fail to check
+ownership.
+_Avoid_: permission, access (unqualified).
+
+**Finding**:
+One security defect identified by an audit: a missing or incorrect control, with a location,
+an impact stated in pilot terms, and a challenger verdict. Not a task; a Finding becomes one
+or more tickets only after the report is read and discussed.
+_Avoid_: issue, vulnerability (as the record's name), bug.
