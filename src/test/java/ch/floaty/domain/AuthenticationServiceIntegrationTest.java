@@ -353,23 +353,32 @@ public class AuthenticationServiceIntegrationTest {
     }
 
     private String extractVerificationToken(String emailContent) {
-        // Define the prefix text to locate the verification token in the email
-        String tokenPrefix = "Your email verification code: ";
-        int startIndex = emailContent.indexOf(tokenPrefix) + tokenPrefix.length();
-
-        // Extract the token until the next newline or end of the content
-        int endIndex = emailContent.indexOf("\n", startIndex);
-        return emailContent.substring(startIndex, endIndex != -1 ? endIndex : emailContent.length());
+        // The verification email (built in AuthenticationService.register) puts the bare
+        // token on its own line after this label. The link further down carries no token.
+        return extractTokenAfter(emailContent, "Enter the code in the verification page of the app: ");
     }
 
     private String extractInitiatePasswordToken(String emailContent) {
-        // Define the prefix text to locate the password reset token in the email
-        String tokenPrefix = "Your password reset code: ";
-        int startIndex = emailContent.indexOf(tokenPrefix) + tokenPrefix.length();
+        // The password reset email does send a labelled code.
+        return extractTokenAfter(emailContent, "Your password reset code: ");
+    }
 
-        // Extract the token until the next newline or end of the content
-        int endIndex = emailContent.indexOf("\n", startIndex);
-        return emailContent.substring(startIndex, endIndex != -1 ? endIndex : emailContent.length());
+    /**
+     * Returns the text following {@code marker}, up to the next whitespace or end of content.
+     * Fails the test if the marker is absent, so a change to the email format surfaces as a
+     * clear message rather than a nonsense substring derived from indexOf returning -1.
+     */
+    private String extractTokenAfter(String emailContent, String marker) {
+        int markerIndex = emailContent.indexOf(marker);
+        assertTrue(markerIndex >= 0,
+                () -> "Email should contain \"" + marker + "\" but did not. Actual content:\n" + emailContent);
+
+        int startIndex = markerIndex + marker.length();
+        // The token may be separated from the label by newlines, so skip any leading
+        // whitespace before reading up to the next whitespace character.
+        String remainder = emailContent.substring(startIndex).stripLeading();
+        String[] parts = remainder.split("\\s", 2);
+        return parts[0].trim();
     }
 
 
