@@ -1,7 +1,10 @@
 package ch.floaty.infrastructure;
 
+import ch.floaty.domain.model.CertificationClass;
 import ch.floaty.domain.model.Glider;
+import ch.floaty.domain.model.Gradation;
 import ch.floaty.domain.model.User;
+import ch.floaty.domain.service.GliderDetails;
 import ch.floaty.domain.service.IGliderApplicationService;
 import ch.floaty.generated.GliderCreateDto;
 import ch.floaty.generated.GliderDto;
@@ -19,6 +22,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
 import java.util.List;
+import java.util.Map;
 
 import static java.util.stream.Collectors.toList;
 
@@ -30,6 +34,7 @@ public class GliderController {
 
     public GliderController(IGliderApplicationService gliderApplicationService) {
         this.gliderApplicationService = gliderApplicationService;
+        GliderMappingConfig.configure(this.modelMapper);
     }
 
     @PostMapping("/gliders")
@@ -38,10 +43,21 @@ public class GliderController {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         User user = (User) authentication.getPrincipal();
 
+        if (gliderCreateDto.getGradation() != null && gliderCreateDto.getCertificationClass() == null) {
+            return gradationWithoutClass();
+        }
+
         Glider glider = gliderApplicationService.createGlider(
                 user,
-                gliderCreateDto.getManufacturer(),
-                gliderCreateDto.getModel()
+                new GliderDetails(
+                        gliderCreateDto.getManufacturer(),
+                        gliderCreateDto.getModel(),
+                        gliderCreateDto.getSize(),
+                        toCertificationClass(gliderCreateDto.getCertificationClass() == null
+                                ? null : gliderCreateDto.getCertificationClass().getValue()),
+                        toGradation(gliderCreateDto.getGradation() == null
+                                ? null : gliderCreateDto.getGradation().getValue())
+                )
         );
 
         GliderDto responseGliderDto = modelMapper.map(glider, GliderDto.class);
@@ -99,16 +115,23 @@ public class GliderController {
             return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
         }
 
-        // Update glider - only update fields that were provided
-        String manufacturer = gliderUpdateDto.getManufacturer() != null ?
-                gliderUpdateDto.getManufacturer() : existingGlider.getManufacturer();
-        String model = gliderUpdateDto.getModel() != null ?
-                gliderUpdateDto.getModel() : existingGlider.getModel();
+        if (gliderUpdateDto.getGradation() != null && gliderUpdateDto.getCertificationClass() == null) {
+            return gradationWithoutClass();
+        }
 
+        // PUT replaces the glider: an absent field means the pilot cleared it, not "keep the
+        // existing value". Clients must send a complete representation.
         Glider updatedGlider = gliderApplicationService.updateGlider(
                 gliderId,
-                manufacturer,
-                model
+                new GliderDetails(
+                        gliderUpdateDto.getManufacturer(),
+                        gliderUpdateDto.getModel(),
+                        gliderUpdateDto.getSize(),
+                        toCertificationClass(gliderUpdateDto.getCertificationClass() == null
+                                ? null : gliderUpdateDto.getCertificationClass().getValue()),
+                        toGradation(gliderUpdateDto.getGradation() == null
+                                ? null : gliderUpdateDto.getGradation().getValue())
+                )
         );
 
         GliderDto responseGliderDto = modelMapper.map(updatedGlider, GliderDto.class);
@@ -141,5 +164,22 @@ public class GliderController {
 
         log.info("Deleted glider: ID={}", gliderId);
         return ResponseEntity.noContent().build();
+    }
+
+    /**
+     * A gradation such as "High" only means something alongside a certification class, so a
+     * gradation with no class is rejected rather than stored as an orphan.
+     */
+    private ResponseEntity<Object> gradationWithoutClass() {
+        return ResponseEntity.badRequest()
+                .body(Map.of("message", "gradation requires a certificationClass to be set."));
+    }
+
+    private CertificationClass toCertificationClass(String value) {
+        return value == null ? null : CertificationClass.valueOf(value);
+    }
+
+    private Gradation toGradation(String value) {
+        return value == null ? null : Gradation.valueOf(value);
     }
 }

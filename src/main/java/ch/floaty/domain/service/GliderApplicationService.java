@@ -22,30 +22,38 @@ public class GliderApplicationService implements IGliderApplicationService {
     }
 
     @Override
-    public Glider createGlider(User user, String manufacturer, String model) {
-
-
+    public Glider createGlider(User user, GliderDetails details) {
         Glider glider = new Glider();
         glider.setUser(user);
-        glider.setManufacturer(manufacturer);
-        glider.setModel(model);
+        applyDetails(glider, details);
 
         Glider savedGlider = gliderRepository.save(glider);
-        log.info("Crated glider for user: {}, manufacturer: {}, model: {}", user.getUsername(), manufacturer, model);
+        log.info("Created glider for user: {}, manufacturer: {}, model: {}, size: {}",
+                user.getUsername(), details.getManufacturer(), details.getModel(), details.getSize());
         return savedGlider;
     }
 
     @Override
-    public Glider updateGlider(Long gliderId, String manufacturer, String model) {
-
-
+    public Glider updateGlider(Long gliderId, GliderDetails details) {
         Glider glider = findGliderById(gliderId);
-        glider.setManufacturer(manufacturer);
-        glider.setModel(model);
+        applyDetails(glider, details);
 
         Glider updatedGlider = gliderRepository.save(glider);
-        log.info("Updated glider ID: {}, manufacturer: {}, model: {}", gliderId, manufacturer, model);
+        log.info("Updated glider ID: {}, manufacturer: {}, model: {}, size: {}",
+                gliderId, details.getManufacturer(), details.getModel(), details.getSize());
         return updatedGlider;
+    }
+
+    /**
+     * Copies every user-supplied property onto the glider. Nulls are written through rather than
+     * skipped: an absent value means the pilot cleared the field, so replacement is the point.
+     */
+    private void applyDetails(Glider glider, GliderDetails details) {
+        glider.setManufacturer(details.getManufacturer());
+        glider.setModel(details.getModel());
+        glider.setSize(details.getSize());
+        glider.setCertificationClass(details.getCertificationClass());
+        glider.setGradation(details.getGradation());
     }
 
     @Override
